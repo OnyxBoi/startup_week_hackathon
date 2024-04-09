@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-const db = new Sequelize("sqlite:musees.sqlite3", {
+const db = new Sequelize("sqlite:museums.sqlite", {
 });
 
 module.exports = { db };

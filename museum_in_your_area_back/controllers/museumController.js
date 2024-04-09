@@ -2,15 +2,21 @@ const museumServices = require('../services/museumServices');
 var geoip = require("geoip-lite");
 
 async function getMuseums(req, res){
+    // try{
+    //     const museums = {
+    //         datas: await museumServices.getMuseums(),
+    //     }
+    //     res.send(museums);
+    // } catch(err){
+    //     res.status(500).json({ message: err.message });
+    // }
     try{
-        const museums = {
-            datas: await museumServices.getMuseums(),
-        }
-        res.send(museums);
-    } catch(err){
-        res.status(500).json({ message: err.message });
+        const { official_name, identifier } = req.query;
+        const museums = await museumServices.getMuseums({ official_name, identifier });
+        res.json(museums);
+    } catch(err) {
+        res.status(500).json({message: err.message})
     }
-    
 }
 
 async function getMuseumsByTown(req, res){

@@ -9,13 +9,13 @@ app.use(express.json());
 
 app.use("/api/v2/museums", museumRoutes)
 
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`)
-})
+// app.listen(PORT, () => {
+//     console.log(`Server running on http://localhost:${PORT}`)
+// })
 
-// db.sync()
-// .then(async () => {
-//     app.listen(PORT, () => {
-//         console.log(`Server running on http://localhost:${PORT}`)
-//     })
-// });
+db.sync()
+.then(async () => {
+    app.listen(PORT, () => {
+        console.log(`Server running on http://localhost:${PORT}`)
+    })
+});

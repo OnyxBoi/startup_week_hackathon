@@ -1,11 +1,24 @@
 const {readFile} = require("node:fs/promises");
+// const {Museum} = require('../models/museumsModel')
+// const {Thematic} = require('../models/thematicDomainModel')
+const {Museum, Thematic_Domain} = require('../models/associations')
 
-
-async function getMuseums() {
-    let datas = await readFile("./musees.json", {encoding: "utf-8"})
-    museums = JSON.parse(datas);
-    console.log(museums);
-    return museums
+async function getMuseums(criterias = {}) {
+    const where = {};
+    if(criterias.official_name){
+        where.official_name = criterias.official_name;
+    }
+    if(criterias.identifier){
+        where.identifier = criterias.identifier;
+    }
+    return await Museum.findAll({where,
+        include: [
+            {
+                through: "museum_thematic_domains",
+                model: Thematic_Domain
+            }
+        ]});
+    
 }
 
 async function getMuseumByTown(town) {
