@@ -1,4 +1,4 @@
-const {getAllMuseums, getMuseumsByDepartmentId, getMuseums} = require("../services/museumService");
+const {getAllMuseums, getMuseumsByDepartmentId, getMuseums, getMuseumId} = require("../services/museumService");
 
 const getEveryMuseums = async (req, res) => {
   try {
@@ -51,5 +51,20 @@ const getFilterMuseums = async (req, res) => {
   }
 };
 
+async function getMuseumById(req, res){
+  try{
+    const id = req.params.id;
+    const museum = await getMuseumId(id);
+    if(museum){
+      res.json(museum)
+    } else{
+      res.json({ "error": `Museum not found (id: ${id})` })
+    }
+  } catch(err){
+    res.status(500).json({ message: err.message });
+  }
+  
+}
 
-module.exports = { getFilterMuseums, getMuseumsByDepartment, getEveryMuseums };
+
+module.exports = { getFilterMuseums, getMuseumsByDepartment, getEveryMuseums, getMuseumById };

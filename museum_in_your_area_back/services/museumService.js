@@ -1,5 +1,6 @@
 const { where } = require("sequelize");
 const { Museum, Address, Detail, MuseumThematicDomain, ThematicDomain } = require("../models");
+const { Op } = require('sequelize');
 
 const getAllMuseums = async () => {
   try {
@@ -33,7 +34,7 @@ const getMuseumsByDepartmentId = async (departmentId) => {
     throw error;
   }
 };
-const { Op } = require('sequelize');
+
 
 async function getMuseums(criterias = {}) {
   const associations = [];
@@ -69,5 +70,10 @@ async function getMuseums(criterias = {}) {
   return await Museum.findAll({ include: associations });
 }
 
+async function getMuseumId(id){
+  const museum = await Museum.findByPk(id);
+  return museum
+}
 
-module.exports = { getAllMuseums, getMuseumsByDepartmentId, getMuseums };
+
+module.exports = { getAllMuseums, getMuseumsByDepartmentId, getMuseums, getMuseumId };
