@@ -6,6 +6,7 @@ const museumController = require("../controllers/museumController");
 router.get("/", museumController.getEveryMuseums);
 router.get("/department", museumController.getMuseumsByDepartment);
 router.get("/filter", museumController.getFilterMuseums);
-router.get("/:id", museumController.getMuseumById);
+router.get("/id/:id", museumController.getMuseumById);
+router.get("/random", museumController.getRandomMuseum);
 
 module.exports = router;

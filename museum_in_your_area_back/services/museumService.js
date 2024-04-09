@@ -1,4 +1,4 @@
-const { where } = require("sequelize");
+const { sequelize } = require("sequelize");
 const { Museum, Address, Detail, MuseumThematicDomain, ThematicDomain } = require("../models");
 const { Op } = require('sequelize');
 
@@ -75,5 +75,12 @@ async function getMuseumId(id){
   return museum
 }
 
+async function get3Museums() {
+  return await Museum.findAll({
+    order: Museum.sequelize.literal('RANDOM()'),
+    limit: 3
+  });
+}
 
-module.exports = { getAllMuseums, getMuseumsByDepartmentId, getMuseums, getMuseumId };
+
+module.exports = { getAllMuseums, getMuseumsByDepartmentId, getMuseums, getMuseumId, get3Museums };
