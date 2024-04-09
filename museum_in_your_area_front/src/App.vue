@@ -1,12 +1,10 @@
-<script setup>
-import FrontPage from './components/FrontPage.vue'
-</script>
+<script setup></script>
 
 <template>
   <html data-theme="light">
     <header>
       <div class="navbar bg-base-100">
-        <div class="" style="width: 43.5%;">
+        <div class="" style="width: 43.5%">
           <div class="dropdown">
             <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
               <svg
@@ -29,13 +27,17 @@ import FrontPage from './components/FrontPage.vue'
               class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <a><img src="./assets/home-black.svg" /></a>
+                <router-link to="/">
+                  <a><img src="./assets/home-black.svg" /></a>
+                </router-link>
               </li>
               <li>
                 <a><img src="./assets/map-marker-1-black.svg" /></a>
               </li>
               <li>
-                <a><img src="./assets/search-black.svg" /></a>
+                <router-link to="/advanced-search">
+                  <a><img src="./assets/search-black.svg" /></a>
+                </router-link>
               </li>
             </ul>
           </div>
@@ -44,14 +46,17 @@ import FrontPage from './components/FrontPage.vue'
         <div class="navbar-center hidden lg:flex">
           <ul class="menu menu-horizontal px-1">
             <li>
-              <a><img src="./assets/home-black.svg"
-                 /></a>
+              <router-link to="/">
+                <a><img src="./assets/home-black.svg" /></a>
+              </router-link>
             </li>
             <li>
               <a><img src="./assets/map-marker-1-black.svg" /></a>
             </li>
             <li>
-              <a><img src="./assets/search-black.svg" /></a>
+              <router-link to="/advanced-search">
+                <a><img src="./assets/search-black.svg" /></a>
+              </router-link>
             </li>
           </ul>
         </div>
@@ -59,10 +64,13 @@ import FrontPage from './components/FrontPage.vue'
     </header>
 
     <main>
-      <FrontPage />
+      <router-view />
     </main>
 
-    <footer class="footer footer-center p-4 bg-base-300 text-base-content bg-white" style="display: flex; justify-content: space-between;">
+    <footer
+      class="footer footer-center p-4 bg-base-300 text-base-content bg-white"
+      style="display: flex; justify-content: space-between"
+    >
       <aside class="items-center grid-flow-col">
         <svg
           width="36"
@@ -80,9 +88,9 @@ import FrontPage from './components/FrontPage.vue'
         <p>Copyright © 2024 - Schlumpf Industries - All right reserved</p>
       </aside>
       <nav class="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
-        <a href="https://twitter.com"><img src="./assets/twitter-black.svg"></a>
-        <a href="https://facebook.com"><img src="./assets/facebook-black.svg"></a>
-        <a href="https://instagram.com"><img src="./assets/instagram-black.svg"></a>
+        <a href="https://twitter.com"><img src="./assets/twitter-black.svg" /></a>
+        <a href="https://facebook.com"><img src="./assets/facebook-black.svg" /></a>
+        <a href="https://instagram.com"><img src="./assets/instagram-black.svg" /></a>
       </nav>
     </footer>
   </html>

@@ -52,22 +52,27 @@ defineProps({
           <button class="btn btn-primary text-white">
             Rechercher les musées autour de moi <img src="../assets/map-marker-1-white.svg" />
           </button>
-          <button class="btn btn-success text-white">
-            Recherche avancée <img src="../assets/search-white.svg" />
-          </button>
+          <router-link to="/advanced-search">
+            <button class="btn btn-success text-white">
+              Recherche avancée <img src="../assets/search-white.svg" />
+            </button>
+          </router-link>
         </div>
       </div>
     </div>
     <div id="randomMuseums">
-      <div class="card card-bordered bg-base-100 shadow-xl centeredDiv" style="margin-bottom: 3rem;">
-        <div class="card-body" style="display: flex; flex-direction: row; gap: 5rem;">
+      <div class="card card-bordered bg-base-100 shadow-xl centeredDiv" style="margin-bottom: 3rem">
+        <div class="card-body" style="display: flex; flex-direction: row; gap: 5rem">
           <div class="card w-96 bg-base-100 shadow-xl">
             <figure>
-              <img src="../assets/MIYA-no-background.png" style="max-width: 75%;">
+              <img src="../assets/MIYA-no-background.png" style="max-width: 75%" />
             </figure>
             <div class="card-body">
               <h2 class="card-title">Musée 1</h2>
-              <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</p>
+              <p>
+                Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur,
+                adipisci velit...
+              </p>
               <div class="card-actions justify-end">
                 <button class="btn btn-primary text-white">Découvrir le musée !</button>
               </div>
@@ -75,11 +80,14 @@ defineProps({
           </div>
           <div class="card w-96 bg-base-100 shadow-xl">
             <figure>
-              <img src="../assets/MIYA-no-background.png" style="max-width: 75%;">
+              <img src="../assets/MIYA-no-background.png" style="max-width: 75%" />
             </figure>
             <div class="card-body">
               <h2 class="card-title">Musée 2</h2>
-              <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</p>
+              <p>
+                Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur,
+                adipisci velit...
+              </p>
               <div class="card-actions justify-end">
                 <button class="btn btn-primary text-white">Découvrir le musée !</button>
               </div>
@@ -87,11 +95,14 @@ defineProps({
           </div>
           <div class="card w-96 bg-base-100 shadow-xl">
             <figure>
-              <img src="../assets/MIYA-no-background.png" style="max-width: 75%;">
+              <img src="../assets/MIYA-no-background.png" style="max-width: 75%" />
             </figure>
             <div class="card-body">
               <h2 class="card-title">Musée 3</h2>
-              <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</p>
+              <p>
+                Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur,
+                adipisci velit...
+              </p>
               <div class="card-actions justify-end">
                 <button class="btn btn-primary text-white">Découvrir le musée !</button>
               </div>
