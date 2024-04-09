@@ -3,7 +3,8 @@ const router = express.Router();
 
 const museumController = require("../controllers/museumController");
 
-router.get("/", museumController.getMuseums);
+router.get("/", museumController.getEveryMuseums);
 router.get("/department", museumController.getMuseumsByDepartment);
+router.get("/all", museumController.getFilterMuseums);
 
 module.exports = router;
