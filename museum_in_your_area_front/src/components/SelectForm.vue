@@ -30,14 +30,22 @@ function showCheckboxes(type) {
 <template>
   <div class="multiselect">
     <div class="selectBox" @click="showCheckboxes(type)">
-      <select class="select w-full max-w-xs" :class="{ 'select-item': expanded }">
+      <select
+        class="select w-full max-w-xs"
+        :class="{ 'select-item': expanded, 'not-select-item': !expanded }"
+      >
         <option class="default-option">{{ defaultTitle }}</option>
       </select>
       <div class="overSelect"></div>
     </div>
     <div class="checkboxes">
       <label class="checkbox-container" v-for="data in datas" :key="data" :for="data">
-        <input class="custom-checkbox" type="checkbox" :id="data" @change="emitEvent(data, type)" />
+        <input
+          class="custom-checkbox"
+          type="checkbox"
+          :id="data"
+          @change="emitEvent(datas.indexOf(data), type)"
+        />
         <span class="checkmark"></span>
         {{ data }}
       </label>
@@ -46,15 +54,17 @@ function showCheckboxes(type) {
 </template>
 
 <style scoped>
-.select{
+.select {
   background-color: white;
   color: black;
 }
 
 .multiselect {
-  width: 200px;
+  width: 20vw;
 
   margin: 1vh 1vw;
+
+  border-radius: 10px;
 }
 
 .selectBox {
@@ -66,11 +76,18 @@ function showCheckboxes(type) {
   font-weight: bold;
 }
 
-.select-item{
- border-bottom-left-radius: 0;
- border-bottom-right-radius: 0;
+.not-select-item {
+  box-shadow:
+    rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
 }
 
+.select-item {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+
+  box-shadow: 0px;
+}
 
 .overSelect {
   position: absolute;
@@ -88,14 +105,15 @@ function showCheckboxes(type) {
   box-shadow: black 0px 0px 50px;
 
   padding: 1vh 1vw;
+
+  height: 40vh;
+  overflow-y: scroll;
 }
 
 .checkboxes label {
   display: block;
   margin: 1vh 1vw;
 }
-
-
 
 .checkbox-container {
   display: inline-block;
@@ -130,7 +148,7 @@ function showCheckboxes(type) {
 }
 
 .checkmark:after {
-  content: "";
+  content: '';
   position: absolute;
   /* display: none; */
   left: 10px;
@@ -143,7 +161,7 @@ function showCheckboxes(type) {
 }
 
 .custom-checkbox:checked ~ .checkmark {
-  background-color: #2196F3;
+  background-color: #2196f3;
   box-shadow: 0 3px 7px rgba(33, 150, 243, 0.3);
 }
 
@@ -164,5 +182,4 @@ function showCheckboxes(type) {
 .custom-checkbox:checked ~ .checkmark:after {
   animation: checkAnim 0.2s forwards;
 }
-
 </style>
