@@ -15,13 +15,13 @@ function emitEvent(data, dataType) {
 
 let expanded = ref(false)
 
-function showCheckboxes() {
-  let checkboxes = document.getElementById('checkboxes')
+function showCheckboxes(type) {
+  const checkboxes = document.getElementsByClassName('checkboxes')
   if (expanded.value) {
-    checkboxes.style.display = 'none'
+    checkboxes[type].style.display = 'none'
     expanded.value = false
   } else {
-    checkboxes.style.display = 'block'
+    checkboxes[type].style.display = 'block'
     expanded.value = true
   }
 }
@@ -29,13 +29,13 @@ function showCheckboxes() {
 
 <template>
   <div class="multiselect">
-    <div class="selectBox" @click="showCheckboxes">
+    <div class="selectBox" @click="showCheckboxes(type)">
       <select>
         <option>{{ defaultTitle }}</option>
       </select>
       <div class="overSelect"></div>
     </div>
-    <div id="checkboxes">
+    <div class="checkboxes">
       <label v-for="data in datas" :key="data" :for="data">
         <input type="checkbox" :id="data" @change="emitEvent(data, type)" /> {{ data }}
       </label>
@@ -65,16 +65,16 @@ function showCheckboxes() {
   bottom: 0;
 }
 
-#checkboxes {
+.checkboxes {
   display: none;
   border: 1px #dadada solid;
 }
 
-#checkboxes label {
+.checkboxes label {
   display: block;
 }
 
-#checkboxes label:hover {
+.checkboxes label:hover {
   background-color: #1e90ff;
 }
 </style>
