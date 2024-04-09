@@ -1,11 +1,9 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const museumController = require('../controllers/museumController')
+const museumController = require("../controllers/museumController");
 
 router.get("/", museumController.getMuseums);
-router.get("/town/:town", museumController.getMuseumsByTown);
-router.get("/department/:department", museumController.getMuseumsByDepartment);
-router.get("/themes/:themes", museumController.getMuseumsByTheme);
+router.get("/department", museumController.getMuseumsByDepartment);
 
 module.exports = router;
