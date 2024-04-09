@@ -79,16 +79,34 @@ function changeSelected(data, type) {
 }
 
 function handleSubmit() {
-  console.log(
-    'Filtres sélectionnées : \n Villes :',
-    selectedFilters.value[0],
-    '\n Départements :',
-    selectedFilters.value[1],
-    '\n Régions :',
-    selectedFilters.value[2],
-    '\n Domaines thématiques :',
-    selectedFilters.value[3]
-  )
+  let url = 'http://localhost:3000'
+
+  const filtersActivated = selectedFilters.value.some((filter) => filter.length > 0)
+
+  if (filtersActivated) {
+    url += '?'
+
+    const filterTypes = ['villesId', 'departementsId', 'regionId', 'domainesThematiquesId']
+    let isFirstFilter = true
+
+    filterTypes.forEach((type, typeIndex) => {
+      if (selectedFilters.value[typeIndex].length > 0) {
+        if (!isFirstFilter) {
+          url += '&'
+        } else {
+          isFirstFilter = false
+        }
+
+        url += type + "="
+        selectedFilters.value[typeIndex].forEach((item, filterIndex) => {
+          url += item
+          if (filterIndex !== selectedFilters.value[typeIndex].length - 1) url += ','
+        })
+      }
+    })
+  }
+
+  console.log(url)
 }
 </script>
 
