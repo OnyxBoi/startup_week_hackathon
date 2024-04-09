@@ -1,7 +1,8 @@
 <script setup>
 import { ref } from 'vue'
+import SearchBarSelectFilter from './SearchBarSelectFilter.vue';
 
-defineProps({
+const props = defineProps({
   datas: Array,
   defaultTitle: String,
   type: Number
@@ -13,7 +14,11 @@ function emitEvent(data, dataType) {
   emit('changeSelected', data, dataType)
 }
 
+let filteredDatas = ref(props.datas);
+
 let expanded = ref(false)
+
+let searchString = ref("")
 
 function showCheckboxes(type) {
   const checkboxes = document.getElementsByClassName('checkboxes')
@@ -25,26 +30,37 @@ function showCheckboxes(type) {
     expanded.value = true
   }
 }
+
+function updateSearchString(string){
+  searchString.value = string;
+  console.log();
+  getFilteredDatas();
+}
+
+function getFilteredDatas(){
+  filteredDatas.value = props.datas.filter(str => str.toLowerCase().includes(searchString.value.toLowerCase()));
+}
 </script>
 
 <template>
   <div class="multiselect">
-    <div class="selectBox" @click="showCheckboxes(type)">
+    <div class="selectBox" @click="showCheckboxes(props.type)">
       <select
         class="select w-full max-w-xs"
         :class="{ 'select-item': expanded, 'not-select-item': !expanded }"
       >
-        <option class="default-option">{{ defaultTitle }}</option>
+        <option class="default-option">{{ props.defaultTitle }}</option>
       </select>
       <div class="overSelect"></div>
     </div>
     <div class="checkboxes">
-      <label class="checkbox-container" v-for="data in datas" :key="data" :for="data">
+      <SearchBarSelectFilter :search-string="searchString" @update-search-string="updateSearchString" />
+      <label class="checkbox-container" v-for="data in filteredDatas" :key="data" :for="data">
         <input
           class="custom-checkbox"
           type="checkbox"
           :id="data"
-          @change="emitEvent(datas.indexOf(data), type)"
+          @change="emitEvent(datas.indexOf(data), props.type)"
         />
         <span class="checkmark"></span>
         {{ data }}
