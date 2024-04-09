@@ -1,20 +1,61 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { ref } from 'vue'
+
+import SelectForm from './components/SelectForm.vue'
+
+const villes = ['Strasbourg', 'Bordeaux', 'Montluçon', 'Beaune']
+const regions = ['Grand Est', 'Nouvelle-Aquitaine', 'Auvergne-Rhone-Alpes', 'Bourgogne-Franche-Comté']
+const departements = ['Bas-Rhin', 'Dordogne', 'Gironde', 'Lot-et-Garonne']
+const domaines_thematiques = ['Archéologie', 'Arts décoratifs', 'Histoire', 'Technique et industrie']
+
+let selectedFilters = ref([[], [], [], []])
+
+
+function changeSelected(data, type) {
+  let index = selectedFilters.value[type].indexOf(data)
+  if (index !== -1) {
+    selectedFilters.value[type].splice(index, 1)
+  } else {
+    selectedFilters.value[type].push(data)
+  }
+}
+
+function handleSubmit() {
+  console.log('Filtres sélectionnées :', selectedFilters.value[0], selectedFilters.value[1], selectedFilters.value[2], selectedFilters.value[3])
+}
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+  <form action="" @submit.prevent="handleSubmit">
+    <div style="display: flex; flex-direction: row">
+      <SelectForm
+        :datas="villes"
+        :default-title="'Ville'"
+        :type=0
+        @change-selected="changeSelected"
+      />
+      <SelectForm
+        :datas="regions"
+        :default-title="'Région'"
+        :type=1
+        @change-selected="changeSelected"
+      />
+      <SelectForm
+        :datas="departements"
+        :default-title="'Département'"
+        :type=2
+        @change-selected="changeSelected"
+      />
+      <SelectForm
+        :datas="domaines_thematiques"
+        :default-title="'Domaine thématique'"
+        :type=3
+        @change-selected="changeSelected"
+      />
     </div>
-  </header>
 
-  <main>
-    <TheWelcome />
-  </main>
+    <input type="submit" value="OK" class="btn btn-neutral" />
+  </form>
 </template>
 
 <style scoped>
