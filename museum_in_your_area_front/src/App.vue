@@ -1,20 +1,47 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { ref } from 'vue'
+
+import SelectForm from './components/SelectForm.vue'
+
+const regions = ['Grand Est', 'Nouvelle-Aquitaine', 'Auvergne-Rhone-Alpes', 'Bourgogne-Franche-Comté']
+const departements = ['Bas-Rhin', 'Dordogne', 'Gironde', 'Lot-et-Garonne']
+
+let selectedFilters = ref([[], []])
+
+
+function changeSelected(data, type) {
+  let index = selectedFilters.value[type].indexOf(data)
+  if (index !== -1) {
+    selectedFilters.value[type].splice(index, 1)
+  } else {
+    selectedFilters.value[type].push(data)
+  }
+}
+
+function handleSubmit() {
+  console.log('Filtres sélectionnées :', selectedFilters.value[0], selectedFilters.value[1])
+}
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+  <form action="" @submit.prevent="handleSubmit">
+    <div style="display: flex; flex-direction: row">
+      <SelectForm
+        :datas="regions"
+        :default-title="'Région'"
+        :type=0
+        @change-selected="changeSelected"
+      />
+      <SelectForm
+        :datas="departements"
+        :default-title="'Départements'"
+        :type=1
+        @change-selected="changeSelected"
+      />
     </div>
-  </header>
 
-  <main>
-    <TheWelcome />
-  </main>
+    <input type="submit" value="OK" />
+  </form>
 </template>
 
 <style scoped>
