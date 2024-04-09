@@ -3,10 +3,12 @@ import { ref } from 'vue'
 
 import SelectForm from './components/SelectForm.vue'
 
+const villes = ['Strasbourg', 'Bordeaux', 'Montluçon', 'Beaune']
 const regions = ['Grand Est', 'Nouvelle-Aquitaine', 'Auvergne-Rhone-Alpes', 'Bourgogne-Franche-Comté']
 const departements = ['Bas-Rhin', 'Dordogne', 'Gironde', 'Lot-et-Garonne']
+const domaines_thematiques = ['Archéologie', 'Arts décoratifs', 'Histoire', 'Technique et industrie']
 
-let selectedFilters = ref([[], []])
+let selectedFilters = ref([[], [], [], []])
 
 
 function changeSelected(data, type) {
@@ -19,7 +21,7 @@ function changeSelected(data, type) {
 }
 
 function handleSubmit() {
-  console.log('Filtres sélectionnées :', selectedFilters.value[0], selectedFilters.value[1])
+  console.log('Filtres sélectionnées :', selectedFilters.value[0], selectedFilters.value[1], selectedFilters.value[2], selectedFilters.value[3])
 }
 </script>
 
@@ -27,20 +29,32 @@ function handleSubmit() {
   <form action="" @submit.prevent="handleSubmit">
     <div style="display: flex; flex-direction: row">
       <SelectForm
-        :datas="regions"
-        :default-title="'Région'"
+        :datas="villes"
+        :default-title="'Ville'"
         :type=0
         @change-selected="changeSelected"
       />
       <SelectForm
-        :datas="departements"
-        :default-title="'Départements'"
+        :datas="regions"
+        :default-title="'Région'"
         :type=1
+        @change-selected="changeSelected"
+      />
+      <SelectForm
+        :datas="departements"
+        :default-title="'Département'"
+        :type=2
+        @change-selected="changeSelected"
+      />
+      <SelectForm
+        :datas="domaines_thematiques"
+        :default-title="'Domaine thématique'"
+        :type=3
         @change-selected="changeSelected"
       />
     </div>
 
-    <input type="submit" value="OK" />
+    <input type="submit" value="OK" class="btn btn-neutral" />
   </form>
 </template>
 
