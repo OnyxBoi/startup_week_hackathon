@@ -36,7 +36,12 @@ const getMuseumsWithinRadius = async (lat, lng, radius) => {
       { model: Detail },
       { model: Protection },
       { model: Timestamp },
-      { model: ThematicDomain },
+      {
+        model: ThematicDomain,
+        through: {
+          attributes: [],
+        },
+      },
     ],
   });
 
