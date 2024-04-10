@@ -1,7 +1,7 @@
 <template>
   <div id="museumByIdDiv">
-    <button class="btn btn-success" onclick="my_modal_4.showModal()">Couscous</button>
-    <dialog id="my_modal_4" class="modal">
+    <button class="btn btn-success" onclick="museumModal.showModal()">Couscous</button>
+    <dialog id="museumModal" class="modal">
       <div class="modal-box w-11/12 max-w-6xl">
         <div
           id="modalTitle"
