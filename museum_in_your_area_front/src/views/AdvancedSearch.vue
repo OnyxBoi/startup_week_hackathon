@@ -113,7 +113,7 @@ function handleSubmit() {
 <template>
   <div id="advancedSearchDiv">
     <form action="" @submit.prevent="handleSubmit">
-      <details class="collapse bg-base-200">
+      <details class="collapse collapse-arrow border border-base-300 bg-base-200">
         <summary class="collapse-title text-xl font-medium">Modifier les filtres</summary>
         <div class="collapse-content">
           <div class="select-container">
