@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import FrontPage from '../views/FrontPage.vue'
 import AdvancedSearch from '../views/AdvancedSearch.vue'
+import MuseumById from '@/views/MuseumById.vue'
 // import CreatePost from '../views/CreatePost.vue'
 
 const router = createRouter({
@@ -15,6 +16,11 @@ const router = createRouter({
       path: '/advanced-search',
       name: 'advanced-search',
       component: AdvancedSearch
+    },
+    {
+      path: '/couscous/',
+      name: 'couscous',
+      component: MuseumById
     }
     // {
     //   path: '/about',
