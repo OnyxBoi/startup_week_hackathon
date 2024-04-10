@@ -1,14 +1,4 @@
-const {getAllMuseums, getMuseumsByDepartmentId, getMuseums, getMuseumId, get3Museums} = require("../services/museumService");
-
-const getEveryMuseums = async (req, res) => {
-  try {
-    const museums = await getAllMuseums();
-    res.status(200).json(museums);
-  } catch (error) {
-    console.error("Error in getMuseums controller:", error);
-    res.status(500).send("An error occurred while fetching museums.");
-  }
-};
+const {getMuseums, getMuseumId, get3Museums} = require("../services/museumService");
 
 const getFilterMuseums = async (req, res) => {
   try {
@@ -46,4 +36,4 @@ async function getRandomMuseum(req, res){
   
 }
 
-module.exports = { getFilterMuseums, getEveryMuseums, getMuseumById, getRandomMuseum };
+module.exports = { getFilterMuseums, getMuseumById, getRandomMuseum };

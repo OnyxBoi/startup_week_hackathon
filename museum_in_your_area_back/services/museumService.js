@@ -1,28 +1,5 @@
-const { Museum, Address, Detail, ThematicDomain, Contact, Protection, Timestamp, Coordinate } = require("../models");
+const { Museum, Address, Detail, ThematicDomain, Contact, Protection, Timestamp, Coordinate, Region, Department, City } = require("../models");
 const { Op } = require('sequelize');
-
-const getAllMuseums = async () => {
-  try {
-    return await Museum.findAll({ limit: 40,
-    include: [
-      {
-        through: "Museum_Thematic_Domain",
-        model: ThematicDomain
-      },
-      {model: Address},
-      {model: Detail},
-      {model: Contact},
-      {model: Protection},
-      {model: Timestamp},
-      {model: Coordinate}
-
-    ] });
-  } catch (error) {
-    console.error("Error fetching museums:", error);
-    throw error;
-  }
-};
-
 
 
 async function getMuseums(criterias = {}) {
@@ -52,14 +29,16 @@ async function getMuseums(criterias = {}) {
   if (criterias.themeId) {
     criterias.themeId = criterias.themeId.split(',').map(id => parseInt(id));
     associations.push({
-      through: "Museum_Thematic_Domain",
+      through: {
+        attributes: []
+      },
       model: ThematicDomain,
       where: { id: { [Op.in]: criterias.themeId} }
   });
   }
 
   associations.push(
-    {model: Address},
+    {model: Address, include: [{model: Region}, {model: City}, {model: Department}]},
     {model: Detail},
     {model: Contact},
     {model: Protection},
@@ -83,4 +62,4 @@ async function get3Museums() {
 }
 
 
-module.exports = { getAllMuseums, getMuseums, getMuseumId, get3Museums };
+module.exports = { getMuseums, getMuseumId, get3Museums };
