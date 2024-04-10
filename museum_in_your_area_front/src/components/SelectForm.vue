@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue'
-import SearchBarSelectFilter from './SearchBarSelectFilter.vue';
+import { onMounted, ref } from 'vue'
+import SearchBarSelectFilter from './SearchBarSelectFilter.vue'
 
 const props = defineProps({
   datas: Array,
@@ -12,13 +12,20 @@ const emit = defineEmits(['changeSelected'])
 
 function emitEvent(data, dataType) {
   emit('changeSelected', data, dataType)
+  checkedDatas.value[data] = !checkedDatas.value[data]
 }
 
-let filteredDatas = ref(props.datas);
+let filteredDatas = ref(props.datas)
+
+let checkedDatas = ref([])
 
 let expanded = ref(false)
 
-let searchString = ref("")
+let searchString = ref('')
+
+onMounted(() => {
+  for (let i = 0; i < props.datas.length; i++) checkedDatas.value.push(false)
+})
 
 function showCheckboxes(type) {
   const checkboxes = document.getElementsByClassName('checkboxes')
@@ -31,14 +38,16 @@ function showCheckboxes(type) {
   }
 }
 
-function updateSearchString(string){
-  searchString.value = string;
-  console.log();
-  getFilteredDatas();
+function updateSearchString(string) {
+  searchString.value = string
+  console.log()
+  getFilteredDatas()
 }
 
-function getFilteredDatas(){
-  filteredDatas.value = props.datas.filter(str => str.toLowerCase().includes(searchString.value.toLowerCase()));
+function getFilteredDatas() {
+  filteredDatas.value = props.datas.filter((str) =>
+    str.toLowerCase().includes(searchString.value.toLowerCase())
+  )
 }
 </script>
 
@@ -54,13 +63,22 @@ function getFilteredDatas(){
       <div class="overSelect"></div>
     </div>
     <div class="checkboxes">
-      <SearchBarSelectFilter :search-string="searchString" @update-search-string="updateSearchString" />
-      <label class="checkbox-container" v-for="data in filteredDatas" :key="data" :for="data">
+      <SearchBarSelectFilter
+        :search-string="searchString"
+        @update-search-string="updateSearchString"
+      />
+      <label
+        class="checkbox-container"
+        v-for="data in filteredDatas"
+        :key="props.datas.indexOf(data)"
+        :for="data"
+      >
         <input
           class="custom-checkbox"
           type="checkbox"
           :id="data"
-          @change="emitEvent(datas.indexOf(data), props.type)"
+          :checked="checkedDatas[props.datas.indexOf(data)]"
+          @change="emitEvent(props.datas.indexOf(data), props.type)"
         />
         <span class="checkmark"></span>
         {{ data }}
