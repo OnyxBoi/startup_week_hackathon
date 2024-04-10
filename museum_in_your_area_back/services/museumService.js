@@ -1,5 +1,4 @@
-const { sequelize } = require("sequelize");
-const { Museum, Address, Detail, MuseumThematicDomain, ThematicDomain } = require("../models");
+const { Museum, Address, Detail, ThematicDomain, Contact, Protection, Timestamp, Coordinate } = require("../models");
 const { Op } = require('sequelize');
 
 const getAllMuseums = async () => {
@@ -9,8 +8,13 @@ const getAllMuseums = async () => {
       {
         through: "Museum_Thematic_Domain",
         model: ThematicDomain
-      }
-      
+      },
+      {model: Address},
+      {model: Detail},
+      {model: Contact},
+      {model: Protection},
+      {model: Timestamp},
+      {model: Coordinate}
 
     ] });
   } catch (error) {
@@ -19,68 +23,51 @@ const getAllMuseums = async () => {
   }
 };
 
-const getMuseumsByDepartmentId = async (departmentId) => {
-  try {
-    return await Museum.findAll({
-      include: [
-        {
-          model: Address,
-          where: { department_id: departmentId },
-        },
-      ],
-    });
-  } catch (error) {
-    console.error("Error fetching museums by department ID:", error);
-    throw error;
-  }
-};
 
 
 async function getMuseums(criterias = {}) {
-  if (criterias.departmentId) {
-    criterias.departmentId = departmentId.split(',').map(id => parseInt(id)); 
-  }
-  if (criterias.cityId) {
-    criterias.cityId = cityId.split(',').map(id => parseInt(id));
-  }
-  if (criterias.regionId) {
-    criterias.regionId = regionId.split(',').map(id => parseInt(id));
-  }
-  if (criterias.themeId) {
-    criterias.themeId = themeId.split(',').map(id => parseInt(id));
-  }
-
   const associations = [];
 
-  if (criterias.departmentId && criterias.departmentId.length > 0) {
+  if (criterias.departmentId) {
+    criterias.departmentId = criterias.departmentId.split(',').map(id => parseInt(id)); 
     associations.push({
       model: Address,
       where: { department_id: { [Op.in]: criterias.departmentId } }
     });
   }
-
   if (criterias.cityId) {
+    criterias.cityId = criterias.cityId.split(',').map(id => parseInt(id));
     associations.push({
       model: Address,
       where: { city_id: { [Op.in]: criterias.cityId} }
     });
   }
-
   if (criterias.regionId) {
+    criterias.regionId = criterias.regionId.split(',').map(id => parseInt(id));
     associations.push({
       model: Address,
       where: { region_id: {[Op.in]: criterias.regionId} }
     });
   }
-
   if (criterias.themeId) {
+    criterias.themeId = criterias.themeId.split(',').map(id => parseInt(id));
     associations.push({
-        through: "Museum_Thematic_Domain",
-        model: ThematicDomain,
-        where: { id: { [Op.in]: criterias.themeId} }
-    });
+      through: "Museum_Thematic_Domain",
+      model: ThematicDomain,
+      where: { id: { [Op.in]: criterias.themeId} }
+  });
   }
-  return await Museum.findAll({ include: associations });
+
+  associations.push(
+    {model: Address},
+    {model: Detail},
+    {model: Contact},
+    {model: Protection},
+    {model: Timestamp},
+    {model: Coordinate})
+
+  return await Museum.findAll({ 
+    include: associations});
 }
 
 async function getMuseumId(id){
@@ -96,4 +83,4 @@ async function get3Museums() {
 }
 
 
-module.exports = { getAllMuseums, getMuseumsByDepartmentId, getMuseums, getMuseumId, get3Museums };
+module.exports = { getAllMuseums, getMuseums, getMuseumId, get3Museums };
