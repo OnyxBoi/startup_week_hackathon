@@ -32,7 +32,9 @@
                 </router-link>
               </li>
               <li>
-                <a><img src="./assets/map-marker-1-black.svg" /></a>
+                <router-link to="/map-search">
+                  <a><img src="./assets/map-marker-1-black.svg" /></a>
+                </router-link>
               </li>
               <li>
                 <router-link to="/advanced-search">
@@ -51,7 +53,9 @@
               </router-link>
             </li>
             <li>
-              <a><img src="./assets/map-marker-1-black.svg" /></a>
+              <router-link to="/map-search">
+                <a><img src="./assets/map-marker-1-black.svg" /></a>
+              </router-link>
             </li>
             <li>
               <router-link to="/advanced-search">
