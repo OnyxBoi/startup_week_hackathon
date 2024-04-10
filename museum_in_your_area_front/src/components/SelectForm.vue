@@ -1,7 +1,8 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import SearchBarSelectFilter from './SearchBarSelectFilter.vue'
 
-defineProps({
+const props = defineProps({
   datas: Array,
   defaultTitle: String,
   type: Number
@@ -11,9 +12,20 @@ const emit = defineEmits(['changeSelected'])
 
 function emitEvent(data, dataType) {
   emit('changeSelected', data, dataType)
+  checkedDatas.value[data] = !checkedDatas.value[data]
 }
 
+let filteredDatas = ref(props.datas)
+
+let checkedDatas = ref([])
+
 let expanded = ref(false)
+
+let searchString = ref('')
+
+onMounted(() => {
+  for (let i = 0; i < props.datas.length; i++) checkedDatas.value.push(false)
+})
 
 function showCheckboxes(type) {
   const checkboxes = document.getElementsByClassName('checkboxes')
@@ -25,19 +37,49 @@ function showCheckboxes(type) {
     expanded.value = true
   }
 }
+
+function updateSearchString(string) {
+  searchString.value = string
+  console.log()
+  getFilteredDatas()
+}
+
+function getFilteredDatas() {
+  filteredDatas.value = props.datas.filter((str) =>
+    str.toLowerCase().includes(searchString.value.toLowerCase())
+  )
+}
 </script>
 
 <template>
   <div class="multiselect">
-    <div class="selectBox" @click="showCheckboxes(type)">
-      <select class="select w-full max-w-xs" :class="{ 'select-item': expanded }">
-        <option class="default-option">{{ defaultTitle }}</option>
+    <div class="selectBox" @click="showCheckboxes(props.type)">
+      <select
+        class="select w-full max-w-xs"
+        :class="{ 'select-item': expanded, 'not-select-item': !expanded }"
+      >
+        <option class="default-option">{{ props.defaultTitle }}</option>
       </select>
       <div class="overSelect"></div>
     </div>
     <div class="checkboxes">
-      <label class="checkbox-container" v-for="data in datas" :key="data" :for="data">
-        <input class="custom-checkbox" type="checkbox" :id="data" @change="emitEvent(data, type)" />
+      <SearchBarSelectFilter
+        :search-string="searchString"
+        @update-search-string="updateSearchString"
+      />
+      <label
+        class="checkbox-container"
+        v-for="data in filteredDatas"
+        :key="props.datas.indexOf(data)"
+        :for="data"
+      >
+        <input
+          class="custom-checkbox"
+          type="checkbox"
+          :id="data"
+          :checked="checkedDatas[props.datas.indexOf(data)]"
+          @change="emitEvent(props.datas.indexOf(data), props.type)"
+        />
         <span class="checkmark"></span>
         {{ data }}
       </label>
@@ -46,15 +88,17 @@ function showCheckboxes(type) {
 </template>
 
 <style scoped>
-.select{
+.select {
   background-color: white;
   color: black;
 }
 
 .multiselect {
-  width: 200px;
+  width: 20vw;
 
   margin: 1vh 1vw;
+
+  border-radius: 10px;
 }
 
 .selectBox {
@@ -66,11 +110,18 @@ function showCheckboxes(type) {
   font-weight: bold;
 }
 
-.select-item{
- border-bottom-left-radius: 0;
- border-bottom-right-radius: 0;
+.not-select-item {
+  box-shadow:
+    rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
 }
 
+.select-item {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+
+  box-shadow: 0px;
+}
 
 .overSelect {
   position: absolute;
@@ -88,14 +139,15 @@ function showCheckboxes(type) {
   box-shadow: black 0px 0px 50px;
 
   padding: 1vh 1vw;
+
+  height: 40vh;
+  overflow-y: scroll;
 }
 
 .checkboxes label {
   display: block;
   margin: 1vh 1vw;
 }
-
-
 
 .checkbox-container {
   display: inline-block;
@@ -130,7 +182,7 @@ function showCheckboxes(type) {
 }
 
 .checkmark:after {
-  content: "";
+  content: '';
   position: absolute;
   /* display: none; */
   left: 10px;
@@ -143,7 +195,7 @@ function showCheckboxes(type) {
 }
 
 .custom-checkbox:checked ~ .checkmark {
-  background-color: #2196F3;
+  background-color: #2196f3;
   box-shadow: 0 3px 7px rgba(33, 150, 243, 0.3);
 }
 
@@ -164,5 +216,4 @@ function showCheckboxes(type) {
 .custom-checkbox:checked ~ .checkmark:after {
   animation: checkAnim 0.2s forwards;
 }
-
 </style>
