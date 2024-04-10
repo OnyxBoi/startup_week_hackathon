@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import FrontPage from '../views/FrontPage.vue'
 import AdvancedSearch from '../views/AdvancedSearch.vue'
-import MuseumById from '@/views/MuseumById.vue'
 // import CreatePost from '../views/CreatePost.vue'
 
 const router = createRouter({
