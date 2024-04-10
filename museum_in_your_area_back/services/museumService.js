@@ -37,6 +37,19 @@ const getMuseumsByDepartmentId = async (departmentId) => {
 
 
 async function getMuseums(criterias = {}) {
+  if (criterias.departmentId) {
+    criterias.departmentId = departmentId.split(',').map(id => parseInt(id)); 
+  }
+  if (criterias.cityId) {
+    criterias.cityId = cityId.split(',').map(id => parseInt(id));
+  }
+  if (criterias.regionId) {
+    criterias.regionId = regionId.split(',').map(id => parseInt(id));
+  }
+  if (criterias.themeId) {
+    criterias.themeId = themeId.split(',').map(id => parseInt(id));
+  }
+
   const associations = [];
 
   if (criterias.departmentId && criterias.departmentId.length > 0) {

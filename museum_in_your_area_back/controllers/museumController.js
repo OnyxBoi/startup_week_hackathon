@@ -30,21 +30,7 @@ const getMuseumsByDepartment = async (req, res) => {
 const getFilterMuseums = async (req, res) => {
   try {
     const { departmentId, cityId, regionId, themeId } = req.query;
-    const criterias = {};
-    if (departmentId) {
-      criterias.departmentId = departmentId.split(',').map(id => parseInt(id)); 
-    }
-    if (cityId) {
-      criterias.cityId = cityId.split(',').map(id => parseInt(id));
-    }
-    if (regionId) {
-      criterias.regionId = regionId.split(',').map(id => parseInt(id));
-    }
-    if (themeId) {
-      criterias.themeId = themeId.split(',').map(id => parseInt(id));
-    }
-
-    const museums = await getMuseums(criterias);
+    const museums = await getMuseums({ departmentId, cityId, regionId, themeId } );
     res.json(museums);
   } catch (err) {
     res.status(500).json({ message: err.message });
