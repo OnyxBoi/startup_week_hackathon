@@ -1,9 +1,9 @@
 const express = require("express");
 const museumRoutes = require("./routes/museumRoutes");
-const departmentRoutes = require("./routes/departmentRoutes")
-const cityRoutes = require("./routes/cityRoutes")
-const regionRoutes = require("./routes/regionRoutes")
-const themeRoutes = require("./routes/themeRoutes")
+const departmentRoutes = require("./routes/departmentRoutes");
+const cityRoutes = require("./routes/cityRoutes");
+const regionRoutes = require("./routes/regionRoutes");
+const themeRoutes = require("./routes/themeRoutes");
 const mapBoxRoutes = require("./routes/mapBoxRoutes");
 const sequelize = require("./dbConfig");
 
@@ -17,7 +17,6 @@ app.use("/api/v1/departments", departmentRoutes);
 app.use("/api/v1/cities", cityRoutes);
 app.use("/api/v1/regions", regionRoutes);
 app.use("/api/v1/themes", themeRoutes);
-
 app.use("/api/v1/maps", mapBoxRoutes);
 
 sequelize.sync().then(async () => {
