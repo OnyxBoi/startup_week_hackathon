@@ -23,16 +23,12 @@ const getMuseumsWithinRadius = async (lat, lng, radius) => {
   return museums
     .filter((museum) => {
       if (!museum.Coordinate || !museum.Coordinate.coordinates) {
-        console.log(`Skipping museum without coordinates: ${museum.id}`);
         return false;
       }
       const [museumLat, museumLng] = museum.Coordinate.coordinates
         .split(",")
         .map(Number);
       const distance = haversineDistance([lat, lng], [museumLat, museumLng]);
-      console.log(
-        `Museum ID: ${museum.id}, Distance: ${distance}, Within Radius: ${distance <= radius}`,
-      );
       return distance <= radius;
     })
     .map((museum) => museum.toJSON());
