@@ -16,11 +16,6 @@ const router = createRouter({
       path: '/advanced-search',
       name: 'advanced-search',
       component: AdvancedSearch
-    },
-    {
-      path: '/couscous/',
-      name: 'couscous',
-      component: MuseumById
     }
     // {
     //   path: '/about',
