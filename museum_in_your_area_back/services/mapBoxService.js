@@ -1,4 +1,16 @@
-const { Museum, Coordinate } = require("../models");
+const {
+  Museum,
+  Coordinate,
+  Address,
+  Contact,
+  Detail,
+  Protection,
+  Timestamp,
+  ThematicDomain,
+  City,
+  Department,
+  Region,
+} = require("../models");
 
 const toRad = (value) => (value * Math.PI) / 180;
 
@@ -17,10 +29,18 @@ const haversineDistance = (coords1, coords2) => {
 
 const getMuseumsWithinRadius = async (lat, lng, radius) => {
   const museums = await Museum.findAll({
-    include: [{ model: Coordinate }],
+    include: [
+      { model: Coordinate },
+      { model: Address, include: [City, Department, Region] },
+      { model: Contact },
+      { model: Detail },
+      { model: Protection },
+      { model: Timestamp },
+      { model: ThematicDomain },
+    ],
   });
 
-  return museums
+  const filteredMuseums = museums
     .filter((museum) => {
       if (!museum.Coordinate || !museum.Coordinate.coordinates) {
         return false;
@@ -32,6 +52,8 @@ const getMuseumsWithinRadius = async (lat, lng, radius) => {
       return distance <= radius;
     })
     .map((museum) => museum.toJSON());
+
+  return filteredMuseums.length > 0 ? filteredMuseums : {};
 };
 
 module.exports = { getMuseumsWithinRadius };
