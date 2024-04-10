@@ -4,6 +4,7 @@ const departmentRoutes = require("./routes/departmentRoutes")
 const cityRoutes = require("./routes/cityRoutes")
 const regionRoutes = require("./routes/regionRoutes")
 const themeRoutes = require("./routes/themeRoutes")
+const mapBoxRoutes = require("./routes/mapBoxRoutes");
 const sequelize = require("./dbConfig");
 
 const app = express();
@@ -17,6 +18,7 @@ app.use("/api/v1/cities", cityRoutes);
 app.use("/api/v1/regions", regionRoutes);
 app.use("/api/v1/themes", themeRoutes);
 
+app.use("/api/v1/maps", mapBoxRoutes);
 
 sequelize.sync().then(async () => {
   app.listen(PORT, () => {
