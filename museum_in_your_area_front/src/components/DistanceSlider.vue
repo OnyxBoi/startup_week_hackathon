@@ -1,15 +1,17 @@
 <script setup>
 import { ref } from 'vue'
+import { eventBus } from '@/stores/eventBus.js'
 
-const sliderValue = ref(0)
+const sliderValue = ref(5)
 
 function updateSliderValue(value) {
   sliderValue.value = value
+  eventBus.sliderValue = value
 }
 
 function retrieveSliderValue() {
   const slider = document.querySelector('#sliderInput')
-  return slider.value
+  eventBus.emit('retrieveSlider', slider.value)
 }
 </script>
 <template>
@@ -19,11 +21,11 @@ function retrieveSliderValue() {
         <input
           id="sliderInput"
           type="range"
-          min="000"
+          min="005"
           max="300"
           :value="sliderValue"
           class="range"
-          step="025"
+          step="05"
           @input="updateSliderValue($event.target.value)"
         />
         <div class="w-full flex justify-between text-xs px-2">

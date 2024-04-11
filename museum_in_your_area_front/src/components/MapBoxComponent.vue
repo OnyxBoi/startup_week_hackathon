@@ -2,6 +2,7 @@
 import mapboxgl from 'mapbox-gl'
 import { computed, ref } from 'vue'
 import { fetchMuseumsMaps } from '../../services/FetchAPI.js'
+import { eventBus } from '../stores/eventBus'
 
 mapboxgl.accessToken =
   'pk.eyJ1Ijoic3lsdmFpbmdhbHRpZXIiLCJhIjoiY2tsZ3JoZ3kyMWV3OTJ3cDdrcjM0azh0eiJ9.zH81EkDqnNnXFigXe1f7PQ'
@@ -14,14 +15,20 @@ const selectedMuseum = ref('')
 const datas = ref({})
 const latitude = ref(44.837789)
 const longitude = ref(-0.57918)
+const radius = ref(5)
 const userLocalisation = computed(() => ({
   latitude: latitude.value,
   longitude: longitude.value,
-  radius: '5'
+  radius: radius.value
 }))
 
 export default {
   mounted() {
+    eventBus.on('retrieveSlider', async (newRadius) => {
+      radius.value = newRadius
+      await placeMarkers()
+    })
+
     const cssLink = document.createElement('link')
     cssLink.href = 'https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css'
     cssLink.rel = 'stylesheet'
