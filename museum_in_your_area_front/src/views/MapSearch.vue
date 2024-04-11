@@ -1,8 +1,7 @@
 <script setup>
-import MapBoxComponent from '@/components/MapBoxComponent.vue';
-
+import MapBoxComponent from '@/components/MapBoxComponent.vue'
 </script>
 
 <template>
-    <MapBoxComponent />
+  <MapBoxComponent />
 </template>
