@@ -1,7 +1,7 @@
 <script setup>
 import MuseumModal from '@/components/MuseumModal.vue'
 import { ref, onBeforeMount } from 'vue'
-import { fetchRandom } from '../../services/FetchAPI';
+import { fetchRandom } from '../../services/FetchAPI'
 
 const selectedMuseum = ref('')
 
@@ -28,8 +28,8 @@ function openModal(data) {
   modalHistory.innerHTML = data.history
   let adresse = ''
   adresse += data.Address.address ? data.Address.address : '-'
-  adresse += ', ' + data.Address.postal_code ? data.Address.postal_code : '-'
-  adresse += ', ' + data.Address.City.city_name ? data.Address.City.city : '-'
+  adresse += `, ${data.Address.postal_code ? data.Address.postal_code : ''}`
+  adresse += `, ${data.Address.City.city_name ? data.Address.City.city_name : ''}`
   modalAdresse.innerHTML = adresse
   modalAdresse.innerHTML =
     "<a class='text-blue-400 hover:text-blue-800 hover:underline' href='https://www.google.com/maps/place/" +
@@ -69,9 +69,12 @@ const datas = ref({})
 
 onBeforeMount(async () => {
   try {
-    datas.value = await fetchRandom();
+    datas.value = await fetchRandom()
   } catch (error) {
-    console.error("Une erreur s'est produite lors de la récupération des données aléatoires:", error);
+    console.error(
+      "Une erreur s'est produite lors de la récupération des données aléatoires:",
+      error
+    )
   }
 })
 </script>
@@ -183,7 +186,7 @@ onBeforeMount(async () => {
   gap: 5rem;
 }
 
-.card-description{
+.card-description {
   height: 25vh;
   overflow-y: auto;
 }

@@ -3,7 +3,7 @@ import mapboxgl from 'mapbox-gl'
 import { computed, ref } from 'vue'
 import { fetchMuseumsMaps } from '../../services/FetchAPI.js'
 import { eventBus } from '../stores/eventBus'
-import {API_CREDENTIALS}  from '../../GLOBAL_VALUES.js'
+import { API_CREDENTIALS } from '../../GLOBAL_VALUES.js'
 
 mapboxgl.accessToken = API_CREDENTIALS
 
@@ -22,7 +22,7 @@ const userLocalisation = computed(() => ({
   radius: radius.value
 }))
 
-let locationAnswerContainer;
+let locationAnswerContainer
 
 export default {
   mounted() {
@@ -114,8 +114,8 @@ async function placeMarkers() {
         modalHistory.innerHTML = data.history
         let adresse = ''
         adresse += data.Address.address ? data.Address.address : '-'
-        adresse += ', ' + data.Address.postal_code ? data.Address.postal_code : '-'
-        adresse += ', ' + data.Address.City.city_name ? data.Address.City.city : '-'
+        adresse += `, ${data.Address.postal_code ? data.Address.postal_code : ''}`
+        adresse += `, ${data.Address.City.city_name ? data.Address.City.city_name : ''}`
         modalAdresse.innerHTML = adresse
         modalAdresse.innerHTML =
           "<a class='text-blue-400 hover:text-blue-800 hover:underline' href='https://www.google.com/maps/place/" +
@@ -186,7 +186,6 @@ function showError(error) {
 
   placeMarkers(datas)
 }
-
 </script>
 <template>
   <div id="location-answer-container"></div>
@@ -364,6 +363,6 @@ function showError(error) {
 }
 
 #location-answer-container:not(:empty) {
-  background-color: #4A55A2;
+  background-color: #4a55a2;
 }
 </style>
