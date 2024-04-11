@@ -4,7 +4,6 @@ import DistanceSlider from '@/components/DistanceSlider.vue'
 </script>
 
 <template>
-  <MapBoxComponent />
   <DistanceSlider />
   <MapBoxComponent />
 </template>
