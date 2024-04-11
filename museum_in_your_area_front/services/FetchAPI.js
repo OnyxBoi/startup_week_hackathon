@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export async function fetchMuseums(selectedFilters, url = 'http://10.3.221.190:3000/api/v1/museums/filter?pageId=1&itemsPerPage=15') {
-  console.log(selectedFilters)
+
 
   const filtersActivated = selectedFilters.some((filter) => filter.length > 0)
   if(!(url.includes("cityId") || url.includes("departmentId") || url.includes("regionId") || url.includes("themeId"))){
@@ -11,15 +11,12 @@ export async function fetchMuseums(selectedFilters, url = 'http://10.3.221.190:3
       let isFirstFilter = true
 
       filterTypes.forEach((type, typeIndex) => {
-        console.log(`Processing filter type: ${type} with index: ${typeIndex}`, selectedFilters[typeIndex]);
         if (selectedFilters[typeIndex].length > 0) {
           if (!isFirstFilter) url += '&'
           isFirstFilter = false
           url += `${type}=`
-          console.log("type:", type)
           selectedFilters[typeIndex].forEach((item, filterIndex) => {
             url += item.id
-            console.log("item :",item.id)
             if (filterIndex !== selectedFilters[typeIndex].length - 1) url += ','
           })
         }
@@ -27,7 +24,6 @@ export async function fetchMuseums(selectedFilters, url = 'http://10.3.221.190:3
     }
   }
 
-  console.log(url)
 
   try {
     const response = await axios.get(url)
