@@ -14,11 +14,11 @@ const selectedMuseum = ref('')
 const datas = ref({})
 const latitude = ref(44.837789)
 const longitude = ref(-0.57918)
-const userLocalisation = {
+const userLocalisation = ref({
   latitude: latitude.value,
   longitude: longitude.value,
   radius: '5'
-}
+})
 
 export default {
   mounted() {
