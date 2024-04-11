@@ -1,6 +1,13 @@
 <script setup>
 import { ref } from 'vue'
 import SelectForm from '@/components/SelectForm.vue'
+import {
+  fetchMuseums,
+  fetchCities,
+  fetchRegions,
+  fetchDepartments,
+  fetchThemes
+} from '../../services/FetchAPI'
 import MuseumModal from '@/components/MuseumModal.vue'
 
 const museum_placeholder = {
@@ -278,6 +285,20 @@ const domaines_thematiques = [
 
 let selectedFilters = ref([[], [], [], []])
 
+const datas = ref({})
+const cities = ref([])
+const departments = ref([])
+const regions = ref([])
+const themes = ref([])
+
+onBeforeMount(async () => {
+  datas.value = await fetchMuseums(selectedFilters.value)
+  cities.value = await fetchCities()
+  departments.value = await fetchDepartments()
+  regions.value = await fetchRegions()
+  themes.value = await fetchThemes()
+})
+
 let datas = [
   {
     id: 'M0015',
@@ -317,44 +338,16 @@ let datas = [
 ]
 
 function changeSelected(data, type) {
-  console.log(data);
-  let index = selectedFilters.value[type].findIndex(item => item.id === data.id)
+  let index = selectedFilters.value[type].indexOf(data)
   if (index !== -1) {
     selectedFilters.value[type].splice(index, 1)
   } else {
-    selectedFilters.value[type].push(data.id)
+    selectedFilters.value[type].push(data)
   }
 }
 
-function handleSubmit() {
-  let url = 'http://localhost:3000'
-
-  const filtersActivated = selectedFilters.value.some((filter) => filter.length > 0)
-
-  if (filtersActivated) {
-    url += '?'
-
-    const filterTypes = ['villesId', 'departementsId', 'regionId', 'domainesThematiquesId']
-    let isFirstFilter = true
-
-    filterTypes.forEach((type, typeIndex) => {
-      if (selectedFilters.value[typeIndex].length > 0) {
-        if (!isFirstFilter) {
-          url += '&'
-        } else {
-          isFirstFilter = false
-        }
-
-        url += type + '='
-        selectedFilters.value[typeIndex].forEach((item, filterIndex) => {
-          url += item
-          if (filterIndex !== selectedFilters.value[typeIndex].length - 1) url += ','
-        })
-      }
-    })
-  }
-
-  console.log(url)
+async function handleSubmit() {
+  datas.value = await fetchMuseums(selectedFilters.value)
 }
 </script>
 
@@ -427,7 +420,6 @@ function handleSubmit() {
       </div>
     </div>
   </div>
-  <MuseumModal />
 </template>
 
 <style scoped>
@@ -450,7 +442,7 @@ form {
   justify-content: center;
 }
 
-.btnMuseum {
+.btn {
   background-color: #4a55a2;
 }
 
