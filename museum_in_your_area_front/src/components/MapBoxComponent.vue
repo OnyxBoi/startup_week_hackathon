@@ -3,9 +3,9 @@ import mapboxgl from 'mapbox-gl'
 import { computed, ref } from 'vue'
 import { fetchMuseumsMaps } from '../../services/FetchAPI.js'
 import { eventBus } from '../stores/eventBus'
+import {API_CREDENTIALS}  from '../../GLOBAL_VALUES.js'
 
-mapboxgl.accessToken =
-  'pk.eyJ1Ijoic3lsdmFpbmdhbHRpZXIiLCJhIjoiY2tsZ3JoZ3kyMWV3OTJ3cDdrcjM0azh0eiJ9.zH81EkDqnNnXFigXe1f7PQ'
+mapboxgl.accessToken = API_CREDENTIALS
 
 let museumMap
 let mapMarkers = ref([])
