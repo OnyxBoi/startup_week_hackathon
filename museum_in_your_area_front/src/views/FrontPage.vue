@@ -1,6 +1,7 @@
 <script setup>
 import MuseumModal from '@/components/MuseumModal.vue'
-import { ref } from 'vue'
+import { ref, onBeforeMount } from 'vue'
+import { fetchCities, fetchMuseums, fetchRandom, fetchRegions } from '../../services/FetchAPI';
 
 const museum_placeholder = {
   M0015: {
@@ -178,29 +179,16 @@ function openModal(id) {
   modal.showModal()
 }
 
-let datas = [
-  {
-    id: 'M0015',
-    image: '../assets/MIYA-no-background.png',
-    titre: 'Musée 1',
-    description:
-      'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
-  },
-  {
-    id: 'M0035',
-    image: '../assets/MIYA-no-background.png',
-    titre: 'Musée 2',
-    description:
-      'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
-  },
-  {
-    id: 3,
-    image: '../assets/MIYA-no-background.png',
-    titre: 'Musée 3',
-    description:
-      'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
+const datas = ref({})
+
+onBeforeMount(async () => {
+  try {
+    datas.value = await fetchRandom();
+  } catch (error) {
+    console.error("Une erreur s'est produite lors de la récupération des données aléatoires:", error);
   }
-]
+})
+console.log(datas.value)
 </script>
 
 <template>
@@ -262,7 +250,7 @@ let datas = [
       <div class="card card-bordered bg-base-100 shadow-xl centeredDiv" style="margin-bottom: 3rem">
         <div class="card-body" style="display: flex; flex-direction: row; gap: 5rem">
           <div
-            v-for="data in datas"
+            v-for="data in datas.data"
             :key="data.id"
             class="card w-96 bg-base-100 shadow-xl museumItem"
           >
@@ -270,9 +258,9 @@ let datas = [
               <img src="../assets/MIYA-no-background.png" style="max-width: 75%" />
             </figure>
             <div class="card-body">
-              <h2 class="card-title">{{ data.titre }}</h2>
+              <h2 class="card-title">{{ data.official_name }}</h2>
               <p>
-                {{ data.description }}
+                {{ data.history }}
               </p>
               <div class="card-actions justify-end">
                 <button class="btn btnMuseum btn-primary text-white" @click="openModal(data.id)">

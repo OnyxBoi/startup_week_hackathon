@@ -53,7 +53,6 @@ export async function fetchCities() {
 
 export async function fetchRegions() {
   let url = 'http://10.3.221.190:3000/api/v1/regions'
-
   try {
     const response = await axios.get(url)
     return response.data
@@ -65,7 +64,6 @@ export async function fetchRegions() {
 
 export async function fetchDepartments() {
   let url = 'http://10.3.221.190:3000/api/v1/departments'
-
   try {
     const response = await axios.get(url)
     return response.data
@@ -77,7 +75,18 @@ export async function fetchDepartments() {
 
 export async function fetchThemes() {
   let url = 'http://10.3.221.190:3000/api/v1/themes'
+  try {
+    const response = await axios.get(url)
+    return response.data
+  } catch (error) {
+    console.error('Erreur lors de la récupération des données :', error)
+    throw error
+  }
+}
 
+
+export async function fetchRandom() {
+  let url = 'http://10.3.221.190:3000/api/v1/museums/random'
   try {
     const response = await axios.get(url)
     return response.data

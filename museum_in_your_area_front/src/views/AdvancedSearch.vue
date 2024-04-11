@@ -1,6 +1,5 @@
 <script setup>
 import { ref, onMounted, onBeforeMount } from 'vue'
-import { isProxy, toRaw } from 'vue';
 import SelectForm from '@/components/SelectForm.vue'
 import MuseumModal from '@/components/MuseumModal.vue'
 
