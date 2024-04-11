@@ -259,7 +259,7 @@ console.log(datas.value)
             </figure>
             <div class="card-body">
               <h2 class="card-title">{{ data.official_name }}</h2>
-              <p>
+              <p class="card-description">
                 {{ data.history }}
               </p>
               <div class="card-actions justify-end">
@@ -296,5 +296,10 @@ console.log(datas.value)
   display: flex;
   flex-direction: row;
   gap: 5rem;
+}
+
+.card-description{
+  height: 25vh;
+  overflow-y: auto;
 }
 </style>
