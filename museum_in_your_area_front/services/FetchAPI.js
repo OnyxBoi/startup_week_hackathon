@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export async function fetchMuseums(selectedFilters, url = 'http://localhost:3000/api/v1/museums/filter?pageId=1&itemsPerPage=15') {
+export async function fetchMuseums(selectedFilters, url = 'http://10.3.221.190:3000/api/v1/museums/filter?pageId=1&itemsPerPage=15') {
   console.log(selectedFilters)
 
   const filtersActivated = selectedFilters.some((filter) => filter.length > 0)
