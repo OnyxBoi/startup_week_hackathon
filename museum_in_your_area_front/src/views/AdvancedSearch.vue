@@ -1,5 +1,6 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onBeforeMount } from 'vue'
+import { isProxy, toRaw } from 'vue';
 import SelectForm from '@/components/SelectForm.vue'
 import MuseumModal from '@/components/MuseumModal.vue'
 
@@ -163,112 +164,48 @@ function openModal(id) {
   }
   modal.showModal();
 }
+import {fetchMuseums, fetchCities, fetchRegions, fetchDepartments, fetchThemes} from '../../services/FetchAPI'
+import { data } from 'autoprefixer';
 
-const villes = ['Strasbourg', 'Bordeaux', 'Montluçon', 'Beaune']
-const departements = ['Bas-Rhin', 'Dordogne', 'Gironde', 'Lot-et-Garonne']
-const regions = [
-  'Grand Est',
-  'Nouvelle-Aquitaine',
-  'Auvergne-Rhone-Alpes',
-  'Bourgogne-Franche-Comté'
-]
-const domaines_thematiques = [
-  'Archéologie',
-  'Arts décoratifs',
-  'Histoire',
-  'Technique et industrie',
-  'Ethnologie',
-  'Beaux-arts',
-  'Sciences de la nature',
-  'dfghjklm',
-  'dfghjklm',
-  'sdfghjkl',
-  'qsdfghjklm',
-  'dfghjklm',
-  'sdfghjkl',
-  'dfghjklm',
-  'dfghjkl',
-  'dfghjkl'
-]
 
 let selectedFilters = ref([[], [], [], []])
 
-let datas = [
-  {
-    id: 'M0015',
-    image: '../assets/MIYA-no-background.png',
-    titre: 'Musée 1',
-    description:
-      'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
-  },
-  {
-    id: 'M0035',
-    image: '../assets/MIYA-no-background.png',
-    titre: 'Musée 2',
-    description:
-      'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
-  },
-  {
-    id: 3,
-    image: '../assets/MIYA-no-background.png',
-    titre: 'Musée 3',
-    description:
-      'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
-  },
-  {
-    id: 4,
-    image: '../assets/MIYA-no-background.png',
-    titre: 'Musée 4,',
-    description:
-      'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
-  },
-  {
-    id: 5,
-    image: '../assets/MIYA-no-background.png',
-    titre: 'Musée 5',
-    description:
-      'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
-  }
-]
+const datas = ref({})
+const cities = ref([])
+const departments = ref([])
+const regions = ref([])
+const themes = ref([])
+
+onBeforeMount(async () => {
+  datas.value = await fetchMuseums(selectedFilters.value)
+  cities.value = await fetchCities()
+  departments.value = await fetchDepartments()
+  regions.value = await fetchRegions()
+  themes.value = await fetchThemes()
+})
+
 
 function changeSelected(data, type) {
   let index = selectedFilters.value[type].indexOf(data)
+  console.log(data)
   if (index !== -1) {
     selectedFilters.value[type].splice(index, 1)
   } else {
     selectedFilters.value[type].push(data)
   }
+  console.log(`Selected filters after update:`, selectedFilters.value[type]);
 }
 
-function handleSubmit() {
-  let url = 'http://localhost:3000'
+async function handleSubmit() {
+  datas.value = await fetchMuseums(selectedFilters.value)
+}
 
-  const filtersActivated = selectedFilters.value.some((filter) => filter.length > 0)
+async function handlePreviousPage(url) {
+  datas.value = await fetchMuseums(selectedFilters.value, url)
+}
 
-  if (filtersActivated) {
-    url += '?'
-
-    const filterTypes = ['villesId', 'departementsId', 'regionId', 'domainesThematiquesId']
-    let isFirstFilter = true
-
-    filterTypes.forEach((type, typeIndex) => {
-      if (selectedFilters.value[typeIndex].length > 0) {
-        if (!isFirstFilter) {
-          url += '&'
-        } else {
-          isFirstFilter = false
-        }
-
-        url += type + '='
-        selectedFilters.value[typeIndex].forEach((item, filterIndex) => {
-          url += item
-          if (filterIndex !== selectedFilters.value[typeIndex].length - 1) url += ','
-        })
-      }
-    })
-  }
-
-  console.log(url)
+async function handleNextPage(url) {
+  datas.value = await fetchMuseums(selectedFilters.value, url)
 }
 </script>
 
@@ -280,14 +217,14 @@ function handleSubmit() {
         <div class="collapse-content">
           <div class="select-container">
             <SelectForm
-              :datas="villes"
+              :datas="cities"
               :default-title="'Villes'"
               :type="0"
               @change-selected="changeSelected"
             />
 
             <SelectForm
-              :datas="departements"
+              :datas="departments"
               :default-title="'Départements'"
               :type="1"
               @change-selected="changeSelected"
@@ -301,7 +238,7 @@ function handleSubmit() {
             />
 
             <SelectForm
-              :datas="domaines_thematiques"
+              :datas="themes"
               :default-title="'Domaines thématiques'"
               :type="3"
               @change-selected="changeSelected"
@@ -318,7 +255,7 @@ function handleSubmit() {
       <div>
         <div class="card-body museumContainer">
           <div
-            v-for="data in datas"
+            v-for="data in datas.data"
             :key="data.id"
             class="card w-96 bg-base-100 shadow-xl museumItem"
           >
@@ -326,9 +263,9 @@ function handleSubmit() {
               <img src="../assets/MIYA-no-background.png" style="max-width: 75%" />
             </figure>
             <div class="card-body">
-              <h2 class="card-title">{{ data.titre }}</h2>
+              <h2 class="card-title">{{ data.official_name }}</h2>
               <p>
-                {{ data.description }}
+                {{ data.history }}
               </p>
               <div class="card-actions justify-end">
                 <button
@@ -343,11 +280,84 @@ function handleSubmit() {
         </div>
       </div>
     </div>
+    <div class="pagination">
+      <div v-if="datas.previousURL" class="card-actions justify-center paginationButtons previous">
+        <button @click="handlePreviousPage(datas.previousURL)"><span>Page précédente</span></button>
+      </div>
+      <div v-if="datas.nextURL" class="card-actions justify-center paginationButtons next">
+        <button @click="handleNextPage(datas.nextURL)"><span>Page suivante</span></button>
+      </div>
+    </div>
+    
   </div>
   <MuseumModal />
 </template>
 
 <style scoped>
+.pagination{
+  display: flex;
+  justify-content: center;
+}
+
+.paginationButtons {
+ display: inline-block;
+ border-radius: 4px;
+ background-color: #4a55a2;
+ border: none;
+ color: #FFFFFF;
+ text-align: center;
+ font-size: 17px;
+ padding: 16px;
+ width: auto;
+ transition: all 0.5s;
+ cursor: pointer;
+ margin: 5px;
+}
+
+.paginationButtons span {
+ cursor: pointer;
+ display: inline-block;
+ position: relative;
+ transition: 0.5s;
+ 
+}
+
+.next span:after {
+ content: '🢂';
+ position: absolute;
+ opacity: 0;
+ top: 0;
+ right: -50px;
+ transition: 0.5s;
+}
+
+.previous span:after {
+ content: '🢀';
+ position: absolute;
+ opacity: 0;
+ top: 0;
+ left: -50px;
+ transition: 0.5s;
+}
+
+.next:hover span {
+ padding-right: 15px;
+}
+
+.previous:hover span {
+ padding-left: 15px;
+}
+
+.next:hover span:after {
+ opacity: 1;
+ right: 0;
+}
+
+.previous:hover span:after {
+ opacity: 1;
+ left: 0;
+}
+
 #advancedSearchDiv {
   background-color: #c5dff8;
 }

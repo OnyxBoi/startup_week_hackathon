@@ -6,10 +6,13 @@ const regionRoutes = require("./routes/regionRoutes");
 const themeRoutes = require("./routes/themeRoutes");
 const mapBoxRoutes = require("./routes/mapBoxRoutes");
 const sequelize = require("./dbConfig");
+const cors = require('cors')
+const morgan = require("morgan")
 
 const app = express();
 const PORT = 3000;
-
+app.use(cors())
+app.use(morgan('dev'))
 app.use(express.json());
 
 app.use("/api/v1/museums", museumRoutes);
@@ -24,3 +27,4 @@ sequelize.sync().then(async () => {
     console.log(`Server running on http://localhost:${PORT}`);
   });
 });
+
