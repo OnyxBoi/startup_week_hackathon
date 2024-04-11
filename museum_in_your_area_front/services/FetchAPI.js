@@ -27,7 +27,6 @@ export async function fetchMuseums(selectedFilters, url = 'http://10.3.221.190:3
     }
   }
 
-
   console.log(url)
 
   try {

@@ -11,8 +11,8 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "mapbox-gl": "^3.3.0",
     "axios": "^1.6.8",
+    "mapbox-gl": "^3.3.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   },
