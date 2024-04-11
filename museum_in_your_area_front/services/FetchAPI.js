@@ -79,3 +79,15 @@ export async function fetchThemes() {
     throw error
   }
 }
+
+export async function fetchMuseumsMaps(userLocalisation) {
+  let url = 'http://10.3.221.190:3000/api/v1/maps'
+
+  try {
+    const response = await axios.post(url, userLocalisation)
+    return response.data
+  } catch (error) {
+    console.error('Erreur lors de la récupération des données :', error)
+    throw error
+  }
+}
