@@ -22,6 +22,8 @@ const userLocalisation = computed(() => ({
   radius: radius.value
 }))
 
+let locationAnswerContainer;
+
 export default {
   mounted() {
     eventBus.on('retrieveSlider', async (newRadius) => {
@@ -45,7 +47,13 @@ export default {
       zoom: 10
     })
 
-    navigator.geolocation.getCurrentPosition(coordonnees, showError)
+    locationAnswerContainer = document.getElementById('location-answer-container')
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(coordonnees, showError)
+    } else {
+      locationAnswerContainer.innerHTML = 'Geolocation is not supported by this browser.'
+    }
   }
 }
 
@@ -163,23 +171,25 @@ async function placeMarkers() {
   })
 }
 
-async function showError(error) {
+function showError(error) {
   switch (error.code) {
     case error.PERMISSION_DENIED:
-      console.log('User denied the request for Geolocation.')
+      locationAnswerContainer.innerHTML = 'User denied the request for Geolocation.'
       break
     case error.POSITION_UNAVAILABLE:
-      console.log('Location information is unavailable.')
+      locationAnswerContainer.innerHTML = 'Location information is unavailable.'
       break
     case error.TIMEOUT:
-      console.log('The request to get user location timed out.')
+      locationAnswerContainer.innerHTML = 'The request to get user location timed out.'
       break
   }
-  await placeMarkers()
+
+  placeMarkers(datas)
 }
 
 </script>
 <template>
+  <div id="location-answer-container"></div>
   <div ref="mapContainer" id="map-container" class="map-container"></div>
   <dialog id="museumModal" class="modal">
     <div class="modal-box w-11/12 max-w-6xl">
@@ -336,5 +346,24 @@ async function showError(error) {
   overflow-y: auto;
 }
 
+#location-answer-container {
+  padding: 2vh 2vw;
+  margin: 2vh 2vw;
+  width: max-content;
+  border-radius: 10px;
 
+  position: absolute;
+  z-index: 1;
+
+  font-size: 1.5vh;
+  color: white;
+}
+
+#location-answer-container:empty {
+  display: none;
+}
+
+#location-answer-container:not(:empty) {
+  background-color: #4A55A2;
+}
 </style>
