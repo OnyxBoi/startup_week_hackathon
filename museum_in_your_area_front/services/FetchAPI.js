@@ -1,6 +1,7 @@
 import axios from 'axios'
+import { HOST } from '../GLOBAL_VALUES'
 
-export async function fetchMuseums(selectedFilters, url = 'http://10.3.221.190:3000/api/v1/museums/filter?pageId=1&itemsPerPage=15') {
+export async function fetchMuseums(selectedFilters, url = `http://${HOST}/api/v1/museums/filter?pageId=1&itemsPerPage=15`) {
 
 
   const filtersActivated = selectedFilters.some((filter) => filter.length > 0)
@@ -36,7 +37,7 @@ export async function fetchMuseums(selectedFilters, url = 'http://10.3.221.190:3
 }
 
 export async function fetchCities() {
-  let url = 'http://10.3.221.190:3000/api/v1/cities'
+  let url = `http://${HOST}/api/v1/cities`
 
   try {
     const response = await axios.get(url)
@@ -48,7 +49,7 @@ export async function fetchCities() {
 }
 
 export async function fetchRegions() {
-  let url = 'http://10.3.221.190:3000/api/v1/regions'
+  let url = `http://${HOST}/api/v1/regions`
   try {
     const response = await axios.get(url)
     return response.data
@@ -59,7 +60,7 @@ export async function fetchRegions() {
 }
 
 export async function fetchDepartments() {
-  let url = 'http://10.3.221.190:3000/api/v1/departments'
+  let url = `http://${HOST}/api/v1/departments`
   try {
     const response = await axios.get(url)
     return response.data
@@ -70,7 +71,7 @@ export async function fetchDepartments() {
 }
 
 export async function fetchThemes() {
-  let url = 'http://10.3.221.190:3000/api/v1/themes'
+  let url = `http://${HOST}/api/v1/themes`
   try {
     const response = await axios.get(url)
     return response.data
@@ -82,7 +83,7 @@ export async function fetchThemes() {
 
 
 export async function fetchRandom() {
-  let url = 'http://10.3.221.190:3000/api/v1/museums/random'
+  let url = `http://${HOST}/api/v1/museums/random`
   try {
     const response = await axios.get(url)
     return response.data
@@ -93,7 +94,7 @@ export async function fetchRandom() {
 }
 
 export async function fetchMuseumsMaps(userLocalisation) {
-  let url = 'http://10.3.221.190:3000/api/v1/maps'
+  let url = `http://${HOST}/api/v1/maps`
 
   try {
     const response = await axios.post(url, userLocalisation)
