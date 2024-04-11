@@ -3,9 +3,9 @@ import mapboxgl from 'mapbox-gl'
 import { computed, ref } from 'vue'
 import { fetchMuseumsMaps } from '../../services/FetchAPI.js'
 import { eventBus } from '../stores/eventBus'
+import {API_CREDENTIALS}  from '../../GLOBAL_VALUES.js'
 
-mapboxgl.accessToken =
-  'pk.eyJ1Ijoic3lsdmFpbmdhbHRpZXIiLCJhIjoiY2tsZ3JoZ3kyMWV3OTJ3cDdrcjM0azh0eiJ9.zH81EkDqnNnXFigXe1f7PQ'
+mapboxgl.accessToken = API_CREDENTIALS
 
 let museumMap
 let mapMarkers = ref([])
@@ -71,7 +71,7 @@ async function placeMarkers() {
   datas.value = await fetchMuseumsMaps(userLocalisation.value)
   datas.value.data.forEach((data) => {
     const name = data.official_name
-    const innerHtmlContent = `<div style="font-size: large;color : black; width: 200px" >
+    const innerHtmlContent = `<div style="font-size: large;color : black; width: 10vw; padding-bottom: 1vh" >
             <h4 class="h4Class">${name} </h4>
         </div>`
 
@@ -150,7 +150,8 @@ async function placeMarkers() {
 
     const popup = new mapboxgl.Popup({
       offset: 25,
-      className: 'mapboxgl-popup'
+      closeOnMove: true,
+      closeButton: false
     }).setDOMContent(divElement)
 
     const coords = data.Coordinate.coordinates.split(', ')

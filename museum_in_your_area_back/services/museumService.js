@@ -49,6 +49,7 @@ function buildAssociations(criterias) {
     associations.push({
       model: Address,
       where: { city_id: { [Op.in]: cityIds } },
+      include: [City, Department, Region]
     });
   }
 
@@ -66,6 +67,7 @@ function buildAssociations(criterias) {
       model: ThematicDomain,
       through: { attributes: [] },
       where: { id: { [Op.in]: themeIds } },
+      
     });
   }
 
@@ -75,6 +77,12 @@ function buildAssociations(criterias) {
     { model: Protection },
     { model: Timestamp },
     { model: Coordinate },
+    {
+      model: ThematicDomain,
+      through: { attributes: [] }
+      
+    },
+    {model: Address, include: [City, Department, Region]}
   );
 
   return associations;
@@ -88,6 +96,19 @@ async function get3Museums() {
   return await Museum.findAll({
     order: Museum.sequelize.literal("RANDOM()"),
     limit: 3,
+    include:[
+      { model: Detail },
+      { model: Contact },
+      { model: Protection },
+      { model: Timestamp },
+      { model: Coordinate },
+      {
+        model: ThematicDomain,
+        through: { attributes: [] }
+        
+      },
+      {model: Address, include: [City, Department, Region]}
+    ]
   });
 }
 
