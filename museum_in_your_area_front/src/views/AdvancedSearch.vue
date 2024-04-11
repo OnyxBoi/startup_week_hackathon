@@ -1,7 +1,9 @@
 <script setup>
 import { ref, onMounted, onBeforeMount } from 'vue'
+import { isProxy, toRaw } from 'vue';
 import SelectForm from '@/components/SelectForm.vue'
 import {fetchMuseums, fetchCities, fetchRegions, fetchDepartments, fetchThemes} from '../../services/FetchAPI'
+import { data } from 'autoprefixer';
 
 
 let selectedFilters = ref([[], [], [], []])
@@ -23,19 +25,25 @@ onBeforeMount(async () => {
 
 function changeSelected(data, type) {
   let index = selectedFilters.value[type].indexOf(data)
+  console.log(data)
   if (index !== -1) {
     selectedFilters.value[type].splice(index, 1)
   } else {
     selectedFilters.value[type].push(data)
   }
+  console.log(`Selected filters after update:`, selectedFilters.value[type]);
 }
 
 async function handleSubmit() {
-  let url = 'http://localhost:3000'
-
   datas.value = await fetchMuseums(selectedFilters.value)
-  console.log(url)
-  console.log(selectedFilters)
+}
+
+async function handlePreviousPage(url) {
+  datas.value = await fetchMuseums(selectedFilters.value, url)
+}
+
+async function handleNextPage(url) {
+  datas.value = await fetchMuseums(selectedFilters.value, url)
 }
 </script>
 
@@ -105,10 +113,83 @@ async function handleSubmit() {
         </div>
       </div>
     </div>
+    <div class="pagination">
+      <div v-if="datas.previousURL" class="card-actions justify-center paginationButtons previous">
+        <button @click="handlePreviousPage(datas.previousURL)"><span>Page précédente</span></button>
+      </div>
+      <div v-if="datas.nextURL" class="card-actions justify-center paginationButtons next">
+        <button @click="handleNextPage(datas.nextURL)"><span>Page suivante</span></button>
+      </div>
+    </div>
+    
   </div>
 </template>
 
 <style scoped>
+.pagination{
+  display: flex;
+  justify-content: center;
+}
+
+.paginationButtons {
+ display: inline-block;
+ border-radius: 4px;
+ background-color: #4a55a2;
+ border: none;
+ color: #FFFFFF;
+ text-align: center;
+ font-size: 17px;
+ padding: 16px;
+ width: auto;
+ transition: all 0.5s;
+ cursor: pointer;
+ margin: 5px;
+}
+
+.paginationButtons span {
+ cursor: pointer;
+ display: inline-block;
+ position: relative;
+ transition: 0.5s;
+ 
+}
+
+.next span:after {
+ content: '🢂';
+ position: absolute;
+ opacity: 0;
+ top: 0;
+ right: -50px;
+ transition: 0.5s;
+}
+
+.previous span:after {
+ content: '🢀';
+ position: absolute;
+ opacity: 0;
+ top: 0;
+ left: -50px;
+ transition: 0.5s;
+}
+
+.next:hover span {
+ padding-right: 15px;
+}
+
+.previous:hover span {
+ padding-left: 15px;
+}
+
+.next:hover span:after {
+ opacity: 1;
+ right: 0;
+}
+
+.previous:hover span:after {
+ opacity: 1;
+ left: 0;
+}
+
 #advancedSearchDiv {
   background-color: #c5dff8;
 }

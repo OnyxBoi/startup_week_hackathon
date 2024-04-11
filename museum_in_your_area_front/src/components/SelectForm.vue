@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onBeforeMount, onMounted } from 'vue'
 import SearchBarSelectFilter from './SearchBarSelectFilter.vue'
 
 const props = defineProps({
@@ -12,18 +12,28 @@ const emit = defineEmits(['changeSelected'])
 
 function emitEvent(data, dataId, dataType, index) {
   console.log(data)
-  emit('changeSelected', data, dataId, 1)
+  emit('changeSelected', data, dataType, 1)
+  console.log(checkedDatas.value[index])
   checkedDatas.value[index] = !checkedDatas.value[index]
 }
 
-let filteredDatas = ref(props.datas)
+let filteredDatas = ref([])
+onBeforeMount(async () => {
+  setTimeout(() => {
+    filteredDatas.value = props.datas
+  }, 500)
+})
+
+
+
+console.log("datas: ", props.datas)
+console.log(filteredDatas.value)
 
 let checkedDatas = ref([])
 
 let expanded = ref(false)
 
 let searchString = ref('')
-console.log(props.datas)
 
 for (let i = 0; i < props.datas.length; i++) checkedDatas.value.push(false)
 
