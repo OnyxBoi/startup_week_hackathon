@@ -44,8 +44,6 @@ export default {
       center: [-0.57918, 44.837789],
       zoom: 10
     })
-
-    navigator.geolocation.getCurrentPosition(coordonnees, showError)
   }
 }
 
@@ -71,7 +69,7 @@ async function placeMarkers() {
   datas.value = await fetchMuseumsMaps(userLocalisation.value)
   datas.value.data.forEach((data) => {
     const name = data.official_name
-    const innerHtmlContent = `<div style="min-width: 600px;font-size: large;color : black;">
+    const innerHtmlContent = `<div style="font-size: large;color : black; width: 200px" >
             <h4 class="h4Class">${name} </h4>
         </div>`
 
@@ -149,7 +147,8 @@ async function placeMarkers() {
     })
 
     const popup = new mapboxgl.Popup({
-      offset: 25
+      offset: 25,
+      className: 'mapboxgl-popup'
     }).setDOMContent(divElement)
 
     const coords = data.Coordinate.coordinates.split(', ')
@@ -176,7 +175,7 @@ async function showError(error) {
   await placeMarkers()
 }
 
-
+navigator.geolocation.getCurrentPosition(coordonnees, showError)
 </script>
 <template>
   <div ref="mapContainer" id="map-container" class="map-container"></div>
@@ -334,4 +333,6 @@ async function showError(error) {
   padding: 15px;
   overflow-y: auto;
 }
+
+
 </style>
