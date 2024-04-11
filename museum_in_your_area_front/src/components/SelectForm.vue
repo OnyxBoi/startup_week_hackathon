@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { ref, onBeforeMount, onMounted } from 'vue'
 import SearchBarSelectFilter from './SearchBarSelectFilter.vue'
 
 const props = defineProps({
@@ -10,12 +10,24 @@ const props = defineProps({
 
 const emit = defineEmits(['changeSelected'])
 
-function emitEvent(data, dataType) {
-  emit('changeSelected', data, dataType)
-  checkedDatas.value[data] = !checkedDatas.value[data]
+function emitEvent(data, dataId, dataType, index) {
+  console.log(data)
+  emit('changeSelected', data, dataType, 1)
+  console.log(checkedDatas.value[index])
+  checkedDatas.value[index] = !checkedDatas.value[index]
 }
 
-let filteredDatas = ref(props.datas)
+let filteredDatas = ref([])
+onBeforeMount(async () => {
+  setTimeout(() => {
+    filteredDatas.value = props.datas
+  }, 500)
+})
+
+
+
+console.log("datas: ", props.datas)
+console.log(filteredDatas.value)
 
 let checkedDatas = ref([])
 
@@ -23,9 +35,7 @@ let expanded = ref(false)
 
 let searchString = ref('')
 
-onMounted(() => {
-  for (let i = 0; i < props.datas.length; i++) checkedDatas.value.push(false)
-})
+for (let i = 0; i < props.datas.length; i++) checkedDatas.value.push(false)
 
 function showCheckboxes(type) {
   const checkboxes = document.getElementsByClassName('checkboxes')
@@ -40,14 +50,17 @@ function showCheckboxes(type) {
 
 function updateSearchString(string) {
   searchString.value = string
-  console.log()
   getFilteredDatas()
 }
 
 function getFilteredDatas() {
   filteredDatas.value = props.datas.filter((str) =>
-    str.toLowerCase().includes(searchString.value.toLowerCase())
+    str.name.toLowerCase().includes(searchString.value.toLowerCase())
   )
+}
+
+function generateKey(data) {
+  return props.type + '-' + data.id
 }
 </script>
 
@@ -70,18 +83,25 @@ function getFilteredDatas() {
       <label
         class="checkbox-container"
         v-for="data in filteredDatas"
-        :key="props.datas.indexOf(data)"
-        :for="data"
+        :key="generateKey(data)"
+        :for="generateKey(data)"
       >
         <input
           class="custom-checkbox"
           type="checkbox"
-          :id="data"
-          :checked="checkedDatas[props.datas.indexOf(data)]"
-          @change="emitEvent(props.datas.indexOf(data), props.type)"
+          :id="generateKey(data)"
+          :checked="checkedDatas[props.datas.findIndex((item) => item.id === data.id)]"
+          @change="
+            emitEvent(
+              data,
+              data.id,
+              props.type,
+              props.datas.findIndex((item) => item.id === data.id)
+            )
+          "
         />
         <span class="checkmark"></span>
-        {{ data }}
+        {{ data.name }}
       </label>
     </div>
   </div>
