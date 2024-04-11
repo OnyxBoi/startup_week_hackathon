@@ -44,6 +44,8 @@ export default {
       center: [-0.57918, 44.837789],
       zoom: 10
     })
+
+    navigator.geolocation.getCurrentPosition(coordonnees, showError)
   }
 }
 
@@ -174,7 +176,7 @@ async function showError(error) {
   await placeMarkers()
 }
 
-navigator.geolocation.getCurrentPosition(coordonnees, showError)
+
 </script>
 <template>
   <div ref="mapContainer" id="map-container" class="map-container"></div>
