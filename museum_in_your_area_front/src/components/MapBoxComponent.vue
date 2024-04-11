@@ -310,7 +310,7 @@ navigator.geolocation.getCurrentPosition(coordonnees, showError)
 
 <style scoped>
 .map-container {
-  height: 78.5vh;
+  height: 66vh;
   flex: 1;
 }
 .modalBodyPart {
