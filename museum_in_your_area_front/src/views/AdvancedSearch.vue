@@ -1,73 +1,33 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onBeforeMount } from 'vue'
 import SelectForm from '@/components/SelectForm.vue'
 
-const villes = ['Strasbourg', 'Bordeaux', 'Montluçon', 'Beaune']
-const departements = ['Bas-Rhin', 'Dordogne', 'Gironde', 'Lot-et-Garonne']
-const regions = [
-  'Grand Est',
-  'Nouvelle-Aquitaine',
-  'Auvergne-Rhone-Alpes',
-  'Bourgogne-Franche-Comté'
-]
-const domaines_thematiques = [
-  'Archéologie',
-  'Arts décoratifs',
-  'Histoire',
-  'Technique et industrie',
-  'Ethnologie',
-  'Beaux-arts',
-  'Sciences de la nature',
-  'dfghjklm',
-  'dfghjklm',
-  'sdfghjkl',
-  'qsdfghjklm',
-  'dfghjklm',
-  'sdfghjkl',
-  'dfghjklm',
-  'dfghjkl',
-  'dfghjkl'
-]
 
 let selectedFilters = ref([[], [], [], []])
 
-let datas = [
-  {
-    id: 1,
-    image: '../assets/MIYA-no-background.png',
-    titre: 'Musée 1',
-    description:
-      'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
-  },
-  {
-    id: 2,
-    image: '../assets/MIYA-no-background.png',
-    titre: 'Musée 2',
-    description:
-      'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
-  },
-  {
-    id: 3,
-    image: '../assets/MIYA-no-background.png',
-    titre: 'Musée 3',
-    description:
-      'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
-  },
-  {
-    id: 4,
-    image: '../assets/MIYA-no-background.png',
-    titre: 'Musée 4,jnhbgvfcd',
-    description:
-      'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
-  },
-  {
-    id: 5,
-    image: '../assets/MIYA-no-background.png',
-    titre: 'Musée 5',
-    description:
-      'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
-  }
-]
+const datas = ref({})
+const cities = ref([])
+const departments = ref([])
+const regions = ref([])
+const themes = ref([])
+
+onBeforeMount(async () => {
+  const responseMuseums = await fetch('http://localhost:3000/api/v1/museums/filter')
+  datas.value = await responseMuseums.json()
+
+  const responseCities = await fetch('http://localhost:3000/api/v1/cities')
+  cities.value = await responseCities.json()
+
+  const responseDepartments = await fetch('http://localhost:3000/api/v1/departments')
+  departments.value = await responseDepartments.json()
+
+  const responseRegions = await fetch('http://localhost:3000/api/v1/regions')
+  regions.value = await responseRegions.json()
+
+  const responseThemes = await fetch('http://localhost:3000/api/v1/themes')
+  themes.value = await responseThemes.json()
+})
+
 
 function changeSelected(data, type) {
   let index = selectedFilters.value[type].indexOf(data)
@@ -86,7 +46,7 @@ function handleSubmit() {
   if (filtersActivated) {
     url += '?'
 
-    const filterTypes = ['villesId', 'departementsId', 'regionId', 'domainesThematiquesId']
+    const filterTypes = ['cityId', 'departmentId', 'regionId', 'themeId']
     let isFirstFilter = true
 
     filterTypes.forEach((type, typeIndex) => {
@@ -107,6 +67,7 @@ function handleSubmit() {
   }
 
   console.log(url)
+  console.log(selectedFilters)
 }
 </script>
 
@@ -118,14 +79,14 @@ function handleSubmit() {
         <div class="collapse-content">
           <div class="select-container">
             <SelectForm
-              :datas="villes"
+              :datas="cities"
               :default-title="'Villes'"
               :type="0"
               @change-selected="changeSelected"
             />
 
             <SelectForm
-              :datas="departements"
+              :datas="departments"
               :default-title="'Départements'"
               :type="1"
               @change-selected="changeSelected"
@@ -139,7 +100,7 @@ function handleSubmit() {
             />
 
             <SelectForm
-              :datas="domaines_thematiques"
+              :datas="themes"
               :default-title="'Domaines thématiques'"
               :type="3"
               @change-selected="changeSelected"
@@ -156,7 +117,7 @@ function handleSubmit() {
       <div style="margin-bottom: 3rem">
         <div class="card-body museumContainer">
           <div
-            v-for="data in datas"
+            v-for="data in datas.data"
             :key="data.id"
             class="card w-96 bg-base-100 shadow-xl museumItem"
           >
@@ -164,9 +125,9 @@ function handleSubmit() {
               <img src="../assets/MIYA-no-background.png" style="max-width: 75%" />
             </figure>
             <div class="card-body">
-              <h2 class="card-title">{{ data.titre }}</h2>
+              <h2 class="card-title">{{ data.official_name }}</h2>
               <p>
-                {{ data.description }}
+                {{ data.history }}
               </p>
               <div class="card-actions justify-end">
                 <button class="btn btn-primary text-white">Découvrir le musée !</button>

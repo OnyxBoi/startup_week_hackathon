@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export async function fetchMuseums(selectedFilters) {
-  let url = 'http://10.3.221.190:3000/api/v1/museums/filter'
+  let url = 'http://localhost:3000/api/v1/museums/filter'
 
   const filtersActivated = selectedFilters.some((filter) => filter.length > 0)
 
@@ -33,7 +33,7 @@ export async function fetchMuseums(selectedFilters) {
 }
 
 export async function fetchCities() {
-  let url = 'http://10.3.221.190:3000/api/v1/cities'
+  let url = 'http://localhost:3000/api/v1/cities'
 
   try {
     const response = await axios.get(url)
@@ -45,7 +45,7 @@ export async function fetchCities() {
 }
 
 export async function fetchRegions() {
-  let url = 'http://10.3.221.190:3000/api/v1/regions'
+  let url = 'http://localhost:3000/api/v1/regions'
 
   try {
     const response = await axios.get(url)
@@ -57,7 +57,7 @@ export async function fetchRegions() {
 }
 
 export async function fetchDepartments() {
-  let url = 'http://10.3.221.190:3000/api/v1/departments'
+  let url = 'http://localhost:3000/api/v1/departments'
 
   try {
     const response = await axios.get(url)
@@ -69,7 +69,7 @@ export async function fetchDepartments() {
 }
 
 export async function fetchThemes() {
-  let url = 'http://10.3.221.190:3000/api/v1/themes'
+  let url = 'http://localhost:3000/api/v1/themes'
 
   try {
     const response = await axios.get(url)
