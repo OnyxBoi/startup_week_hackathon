@@ -56,7 +56,7 @@ async function coordonnees(pos) {
 }
 
 async function placeMarkers() {
-  datas.value = await fetchMuseumsMaps(userLocalisation)
+  datas.value = await fetchMuseumsMaps(userLocalisation.value)
   datas.value.data.forEach((data) => {
     const name = data.official_name
     const innerHtmlContent = `<div style="min-width: 600px;font-size: large;color : black;">
