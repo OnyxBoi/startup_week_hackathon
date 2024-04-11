@@ -69,7 +69,7 @@ async function placeMarkers() {
   datas.value = await fetchMuseumsMaps(userLocalisation.value)
   datas.value.data.forEach((data) => {
     const name = data.official_name
-    const innerHtmlContent = `<div style="font-size: large;color : black; width: 200px" >
+    const innerHtmlContent = `<div style="font-size: large;color : black; width: 10vw; padding-bottom: 1vh" >
             <h4 class="h4Class">${name} </h4>
         </div>`
 
@@ -148,7 +148,8 @@ async function placeMarkers() {
 
     const popup = new mapboxgl.Popup({
       offset: 25,
-      className: 'mapboxgl-popup'
+      closeOnMove: true,
+      closeButton: false
     }).setDOMContent(divElement)
 
     const coords = data.Coordinate.coordinates.split(', ')
