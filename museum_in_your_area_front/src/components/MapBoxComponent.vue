@@ -1,6 +1,6 @@
 <script>
 import mapboxgl from 'mapbox-gl'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { fetchMuseumsMaps } from '../../services/FetchAPI.js'
 
 mapboxgl.accessToken =
@@ -14,11 +14,11 @@ const selectedMuseum = ref('')
 const datas = ref({})
 const latitude = ref(44.837789)
 const longitude = ref(-0.57918)
-const userLocalisation = {
+const userLocalisation = computed(() => ({
   latitude: latitude.value,
   longitude: longitude.value,
   radius: '5'
-}
+}))
 
 export default {
   mounted() {
