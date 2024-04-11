@@ -63,6 +63,9 @@ async function coordonnees(pos) {
 }
 
 async function placeMarkers() {
+  mapMarkers.value.forEach((marker) => marker.remove())
+  mapMarkers.value = []
+
   datas.value = await fetchMuseumsMaps(userLocalisation.value)
   datas.value.data.forEach((data) => {
     const name = data.official_name
