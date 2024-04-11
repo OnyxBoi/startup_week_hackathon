@@ -1,7 +1,8 @@
 <script setup>
-import { ref, onMounted, onBeforeMount } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import SelectForm from '@/components/SelectForm.vue'
 import MuseumModal from '@/components/MuseumModal.vue'
+import {fetchMuseums, fetchCities, fetchRegions, fetchDepartments, fetchThemes} from '../../services/FetchAPI'
 
 const museum_placeholder = {
   M0015: {
@@ -163,8 +164,6 @@ function openModal(id) {
   }
   modal.showModal();
 }
-import {fetchMuseums, fetchCities, fetchRegions, fetchDepartments, fetchThemes} from '../../services/FetchAPI'
-import { data } from 'autoprefixer';
 
 
 let selectedFilters = ref([[], [], [], []])
@@ -186,13 +185,11 @@ onBeforeMount(async () => {
 
 function changeSelected(data, type) {
   let index = selectedFilters.value[type].indexOf(data)
-  console.log(data)
   if (index !== -1) {
     selectedFilters.value[type].splice(index, 1)
   } else {
     selectedFilters.value[type].push(data)
   }
-  console.log(`Selected filters after update:`, selectedFilters.value[type]);
 }
 
 async function handleSubmit() {

@@ -188,7 +188,6 @@ onBeforeMount(async () => {
     console.error("Une erreur s'est produite lors de la récupération des données aléatoires:", error);
   }
 })
-console.log(datas.value)
 </script>
 
 <template>
