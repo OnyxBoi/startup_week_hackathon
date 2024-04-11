@@ -1,10 +1,10 @@
 <script setup>
-import MapBoxComponent from '@/components/MapBoxComponent.vue';
-import DistanceSlider from '@/components/DistanceSlider.vue';
-
+import MapBoxComponent from '@/components/MapBoxComponent.vue'
+import DistanceSlider from '@/components/DistanceSlider.vue'
 </script>
 
 <template>
-    <DistanceSlider />
-    <MapBoxComponent />
+  <MapBoxComponent />
+  <DistanceSlider />
+  <MapBoxComponent />
 </template>

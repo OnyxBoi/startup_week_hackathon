@@ -263,7 +263,7 @@ async function handleNextPage(url) {
             </figure>
             <div class="card-body">
               <h2 class="card-title">{{ data.official_name }}</h2>
-              <p>
+              <p class="history">
                 {{ data.history }}
               </p>
               <div class="card-actions justify-end">
@@ -389,6 +389,12 @@ form {
 .museumItem {
   width: calc(33.33% - 3vw);
   margin: 2vh 1vw;
+  height: 100%;
+}
+
+.history{
+  height: 25vh;
+  overflow-y: auto;
 }
 
 
