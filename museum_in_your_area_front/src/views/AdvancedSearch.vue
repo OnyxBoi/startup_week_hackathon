@@ -53,142 +53,227 @@ const museum_placeholder = {
   }
 }
 
-const museumData = ref(museum_placeholder);
-const selectedMuseum = ref("");
+const museumData = ref(museum_placeholder)
+const selectedMuseum = ref('')
 
 function openModal(id) {
-  selectedMuseum.value = id;
-  const modal = document.getElementById("museumModal")
-  const modalTitle = document.getElementById("modalTitle")
-  const modalName = document.getElementById("modalName")
-  const modalHistory = document.getElementById("modalHistory")
-  const modalAdresse = document.getElementById("modalAdresse")
-  const modalWebsite = document.getElementById("modalWebsite")
-  const modalAtouts = document.getElementById("modalAtouts")
-  const modalArtists = document.getElementById("modalArtists")
-  const modalKeyCharacters = document.getElementById("modalKeyCharacters")
-  const modalCoordinates = document.getElementById("modalCoordinates")
-  const modalUpdateDate = document.getElementById("modalUpdateDate")
-  const modalThemes = document.getElementById("modalThemes")
-  const modalPhone = document.getElementById("modalPhone")
-  const modalCreationYear = document.getElementById("modalCreationYear")
-  const modalSpaceProtection = document.getElementById("modalSpaceProtection")
-  const modalInterests = document.getElementById("modalInterests")
-  if(museumData.value[selectedMuseum.value].name){
+  selectedMuseum.value = id
+  const modal = document.getElementById('museumModal')
+  const modalTitle = document.getElementById('modalTitle')
+  const modalName = document.getElementById('modalName')
+  const modalHistory = document.getElementById('modalHistory')
+  const modalAdresse = document.getElementById('modalAdresse')
+  const modalWebsite = document.getElementById('modalWebsite')
+  const modalAtouts = document.getElementById('modalAtouts')
+  const modalArtists = document.getElementById('modalArtists')
+  const modalKeyCharacters = document.getElementById('modalKeyCharacters')
+  const modalCoordinates = document.getElementById('modalCoordinates')
+  const modalUpdateDate = document.getElementById('modalUpdateDate')
+  const modalThemes = document.getElementById('modalThemes')
+  const modalPhone = document.getElementById('modalPhone')
+  const modalCreationYear = document.getElementById('modalCreationYear')
+  const modalSpaceProtection = document.getElementById('modalSpaceProtection')
+  const modalInterests = document.getElementById('modalInterests')
+  if (museumData.value[selectedMuseum.value].name) {
     modalTitle.innerHTML = museumData.value[selectedMuseum.value].name
     modalName.innerHTML = museumData.value[selectedMuseum.value].name
-  }else{
-    modalTitle.innerHTML = "Non communiqué"
-    modalName.innerHTML = "Non Communiqué"
+  } else {
+    modalTitle.innerHTML = 'Non communiqué'
+    modalName.innerHTML = 'Non Communiqué'
   }
-  if(museumData.value[selectedMuseum.value].history){
+  if (museumData.value[selectedMuseum.value].history) {
     modalHistory.innerHTML = museumData.value[selectedMuseum.value].history
-  }else{
-    modalHistory.innerHTML = "Non communiqué"
+  } else {
+    modalHistory.innerHTML = 'Non communiqué'
   }
-  let adresse = ""
-  if(museumData.value[selectedMuseum.value].location){
+  let adresse = ''
+  if (museumData.value[selectedMuseum.value].location) {
     adresse += museumData.value[selectedMuseum.value].location
-    if(museumData.value[selectedMuseum.value].postal_code){
-      adresse += ", " + museumData.value[selectedMuseum.value].postal_code
+    if (museumData.value[selectedMuseum.value].postal_code) {
+      adresse += ', ' + museumData.value[selectedMuseum.value].postal_code
     }
-    if(museumData.value[selectedMuseum.value].city){
-      adresse += ", " + museumData.value[selectedMuseum.value].city
+    if (museumData.value[selectedMuseum.value].city) {
+      adresse += ', ' + museumData.value[selectedMuseum.value].city
     }
     modalAdresse.innerHTML = adresse
-  }else{
-    modalAdresse.innerHTML = "Non communiqué"
+  } else {
+    modalAdresse.innerHTML = 'Non communiqué'
   }
-  if(museumData.value[selectedMuseum.value].gps_coordinates){
-    if(adresse){
-      modalAdresse.innerHTML = "<a class='text-blue-400 hover:text-blue-800 hover:underline' href='https://www.google.com/maps/place/"+museumData.value[selectedMuseum.value].gps_coordinates+"'>"+adresse+"</a>"
+  if (museumData.value[selectedMuseum.value].gps_coordinates) {
+    if (adresse) {
+      modalAdresse.innerHTML =
+        "<a class='text-blue-400 hover:text-blue-800 hover:underline' href='https://www.google.com/maps/place/" +
+        museumData.value[selectedMuseum.value].gps_coordinates +
+        "'>" +
+        adresse +
+        '</a>'
     }
-    modalCoordinates.innerHTML = "<a class='text-blue-400 hover:text-blue-800 hover:underline' href='https://www.google.com/maps/place/"+museumData.value[selectedMuseum.value].gps_coordinates+"'>"+museumData.value[selectedMuseum.value].gps_coordinates+"</a>"
-  }else{
-    modalCoordinates.innerHTML = "Non Communiqué"
+    modalCoordinates.innerHTML =
+      "<a class='text-blue-400 hover:text-blue-800 hover:underline' href='https://www.google.com/maps/place/" +
+      museumData.value[selectedMuseum.value].gps_coordinates +
+      "'>" +
+      museumData.value[selectedMuseum.value].gps_coordinates +
+      '</a>'
+  } else {
+    modalCoordinates.innerHTML = 'Non Communiqué'
   }
-  if(museumData.value[selectedMuseum.value].url){
-    modalWebsite.innerHTML = "<a class='text-blue-400 hover:text-blue-800 hover:underline' href='https://"+museumData.value[selectedMuseum.value].url+"'>"+museumData.value[selectedMuseum.value].url+"</a>"
-  }else{
-    modalWebsite.innerHTML = "Non communiqué"
+  if (museumData.value[selectedMuseum.value].url) {
+    modalWebsite.innerHTML =
+      "<a class='text-blue-400 hover:text-blue-800 hover:underline' href='https://" +
+      museumData.value[selectedMuseum.value].url +
+      "'>" +
+      museumData.value[selectedMuseum.value].url +
+      '</a>'
+  } else {
+    modalWebsite.innerHTML = 'Non communiqué'
   }
-  if(museumData.value[selectedMuseum.value].atout){
+  if (museumData.value[selectedMuseum.value].atout) {
     modalAtouts.innerHTML = museumData.value[selectedMuseum.value].atout
-  }else{
-    modalAtouts.innerHTML = "Non communiqué"
+  } else {
+    modalAtouts.innerHTML = 'Non communiqué'
   }
-  if(museumData.value[selectedMuseum.value].artists){
+  if (museumData.value[selectedMuseum.value].artists) {
     modalArtists.innerHTML = museumData.value[selectedMuseum.value].artists
-  }else{
-    modalArtists.innerHTML = "Non communiqué"
+  } else {
+    modalArtists.innerHTML = 'Non communiqué'
   }
-  if(museumData.value[selectedMuseum.value].key_personnalities){
+  if (museumData.value[selectedMuseum.value].key_personnalities) {
     modalKeyCharacters.innerHTML = museumData.value[selectedMuseum.value].key_personnalities
-  }else{
-    modalKeyCharacters.innerHTML = "Non communiqué"
+  } else {
+    modalKeyCharacters.innerHTML = 'Non communiqué'
   }
-  if(museumData.value[selectedMuseum.value].modification_date){
+  if (museumData.value[selectedMuseum.value].modification_date) {
     modalUpdateDate.innerHTML = museumData.value[selectedMuseum.value].modification_date
-  }else{
-    modalUpdateDate.innerHTML = "Non communiqué"
+  } else {
+    modalUpdateDate.innerHTML = 'Non communiqué'
   }
-  if(museumData.value[selectedMuseum.value].themes){
+  if (museumData.value[selectedMuseum.value].themes) {
     let themesInnerHTML = ''
-    museumData.value[selectedMuseum.value].themes.forEach(theme => {
-      themesInnerHTML += "<li>"+theme+"</li>";
-    });
+    museumData.value[selectedMuseum.value].themes.forEach((theme) => {
+      themesInnerHTML += '<li>' + theme + '</li>'
+    })
     modalThemes.innerHTML = themesInnerHTML
-  }else{
-    modalThemes.innerHTML = "Non communiqué"
+  } else {
+    modalThemes.innerHTML = 'Non communiqué'
   }
-  if(museumData.value[selectedMuseum.value].phone){
+  if (museumData.value[selectedMuseum.value].phone) {
     modalPhone.innerHTML = museumData.value[selectedMuseum.value].phone
-  }else{
-    modalPhone.innerHTML = "Non communiqué"
+  } else {
+    modalPhone.innerHTML = 'Non communiqué'
   }
-  if(museumData.value[selectedMuseum.value].creation_year){
+  if (museumData.value[selectedMuseum.value].creation_year) {
     modalCreationYear.innerHTML = museumData.value[selectedMuseum.value].creation_year
-  }else{
-    modalCreationYear.innerHTML = "Non communiqué"
+  } else {
+    modalCreationYear.innerHTML = 'Non communiqué'
   }
-  if(museumData.value[selectedMuseum.value].area_protection){
+  if (museumData.value[selectedMuseum.value].area_protection) {
     modalSpaceProtection.innerHTML = museumData.value[selectedMuseum.value].area_protection
-  }else{
-    modalSpaceProtection.innerHTML = "Non communiqué"
+  } else {
+    modalSpaceProtection.innerHTML = 'Non communiqué'
   }
-  if(museumData.value[selectedMuseum.value].interest){
+  if (museumData.value[selectedMuseum.value].interest) {
     modalInterests.innerHTML = museumData.value[selectedMuseum.value].interest
-  }else{
-    modalInterests.innerHTML = "Non communiqué"
+  } else {
+    modalInterests.innerHTML = 'Non communiqué'
   }
-  modal.showModal();
+  modal.showModal()
 }
 
-const villes = ['Strasbourg', 'Bordeaux', 'Montluçon', 'Beaune']
-const departements = ['Bas-Rhin', 'Dordogne', 'Gironde', 'Lot-et-Garonne']
+const villes = [
+  {
+    id: 0,
+    name: 'Strasbourg'
+  },
+  {
+    id: 1,
+    name: 'Bordeaux'
+  },
+  {
+    id: 2,
+    name: 'Montluçon'
+  },
+  {
+    id: 3,
+    name: 'Beaune'
+  }
+]
+const departements = [
+  {
+    id: 0,
+    name: 'Bas-Rhin'
+  },
+  {
+    id: 1,
+    name: 'Dordogne'
+  },
+  {
+    id: 2,
+    name: 'Gironde'
+  },
+  {
+    id: 3,
+    name: 'Lot-et-Garonne'
+  }
+]
 const regions = [
-  'Grand Est',
-  'Nouvelle-Aquitaine',
-  'Auvergne-Rhone-Alpes',
-  'Bourgogne-Franche-Comté'
+  {
+    id: 0,
+    name: 'Grand Est'
+  },
+  {
+    id: 1,
+    name: 'Nouvelle-Aquitaine'
+  },
+  {
+    id: 2,
+    name: 'Auvergne-Rhone-Alpes'
+  },
+  {
+    id: 3,
+    name: 'Bourgogne-Franche-Comté'
+  }
 ]
 const domaines_thematiques = [
-  'Archéologie',
-  'Arts décoratifs',
-  'Histoire',
-  'Technique et industrie',
-  'Ethnologie',
-  'Beaux-arts',
-  'Sciences de la nature',
-  'dfghjklm',
-  'dfghjklm',
-  'sdfghjkl',
-  'qsdfghjklm',
-  'dfghjklm',
-  'sdfghjkl',
-  'dfghjklm',
-  'dfghjkl',
-  'dfghjkl'
+{
+    id: 0,
+    name: 'Archéologie'
+  },
+  {
+    id: 1,
+    name: 'Arts décoratifs'
+  },
+  {
+    id: 2,
+    name: 'Histoire'
+  },
+  {
+    id: 3,
+    name: 'Technique et industrie'
+  },
+  {
+    id: 4,
+    name: 'Ethnologie'
+  },
+  {
+    id: 5,
+    name: 'Beaux-arts'
+  },
+  {
+    id: 6,
+    name: 'Sciences de la nature'
+  },
+  {
+    id: 7,
+    name: 'Bourgogne-Franche-Comté'
+  },
+  {
+    id: 8,
+    name: 'dfghjklm'
+  },
+  {
+    id: 9,
+    name: 'dfghjklm'
+  }
 ]
 
 let selectedFilters = ref([[], [], [], []])
@@ -232,11 +317,12 @@ let datas = [
 ]
 
 function changeSelected(data, type) {
-  let index = selectedFilters.value[type].indexOf(data)
+  console.log(data);
+  let index = selectedFilters.value[type].findIndex(item => item.id === data.id)
   if (index !== -1) {
     selectedFilters.value[type].splice(index, 1)
   } else {
-    selectedFilters.value[type].push(data)
+    selectedFilters.value[type].push(data.id)
   }
 }
 
@@ -331,10 +417,7 @@ function handleSubmit() {
                 {{ data.description }}
               </p>
               <div class="card-actions justify-end">
-                <button
-                  class="btn btnMuseum btn-primary text-white"
-                  @click="openModal(data.id)"
-                >
+                <button class="btn btnMuseum btn-primary text-white" @click="openModal(data.id)">
                   Découvrir le musée !
                 </button>
               </div>
@@ -381,6 +464,4 @@ form {
   width: calc(33.33% - 3vw);
   margin: 2vh 1vw;
 }
-
-
 </style>
