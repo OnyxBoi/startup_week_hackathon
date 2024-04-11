@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onBeforeMount } from 'vue'
 import SelectForm from '@/components/SelectForm.vue'
+import {fetchMuseums, fetchCities, fetchRegions, fetchDepartments, fetchThemes} from '../../services/FetchAPI'
 
 
 let selectedFilters = ref([[], [], [], []])
@@ -12,20 +13,11 @@ const regions = ref([])
 const themes = ref([])
 
 onBeforeMount(async () => {
-  const responseMuseums = await fetch('http://localhost:3000/api/v1/museums/filter')
-  datas.value = await responseMuseums.json()
-
-  const responseCities = await fetch('http://localhost:3000/api/v1/cities')
-  cities.value = await responseCities.json()
-
-  const responseDepartments = await fetch('http://localhost:3000/api/v1/departments')
-  departments.value = await responseDepartments.json()
-
-  const responseRegions = await fetch('http://localhost:3000/api/v1/regions')
-  regions.value = await responseRegions.json()
-
-  const responseThemes = await fetch('http://localhost:3000/api/v1/themes')
-  themes.value = await responseThemes.json()
+  datas.value = await fetchMuseums(selectedFilters.value)
+  cities.value = await fetchCities()
+  departments.value = await fetchDepartments()
+  regions.value = await fetchRegions()
+  themes.value = await fetchThemes()
 })
 
 
@@ -38,34 +30,10 @@ function changeSelected(data, type) {
   }
 }
 
-function handleSubmit() {
+async function handleSubmit() {
   let url = 'http://localhost:3000'
 
-  const filtersActivated = selectedFilters.value.some((filter) => filter.length > 0)
-
-  if (filtersActivated) {
-    url += '?'
-
-    const filterTypes = ['cityId', 'departmentId', 'regionId', 'themeId']
-    let isFirstFilter = true
-
-    filterTypes.forEach((type, typeIndex) => {
-      if (selectedFilters.value[typeIndex].length > 0) {
-        if (!isFirstFilter) {
-          url += '&'
-        } else {
-          isFirstFilter = false
-        }
-
-        url += type + "="
-        selectedFilters.value[typeIndex].forEach((item, filterIndex) => {
-          url += item
-          if (filterIndex !== selectedFilters.value[typeIndex].length - 1) url += ','
-        })
-      }
-    })
-  }
-
+  datas.value = await fetchMuseums(selectedFilters.value)
   console.log(url)
   console.log(selectedFilters)
 }

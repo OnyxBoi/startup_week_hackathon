@@ -17,6 +17,7 @@ export async function fetchMuseums(selectedFilters) {
         url += `${type}=`
         selectedFilters[typeIndex].forEach((item, filterIndex) => {
           url += item
+          console.log(Object.call(item))
           if (filterIndex !== selectedFilters[typeIndex].length - 1) url += ','
         })
       }
