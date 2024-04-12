@@ -151,4 +151,6 @@ yarn-error.log
 #intelliJ
 .idea
 
+GLOBAL_VALUES.js
+
 # End of https://www.toptal.com/developers/gitignore/api/vuejs,node
