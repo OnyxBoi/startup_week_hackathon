@@ -151,6 +151,6 @@ yarn-error.log
 #intelliJ
 .idea
 
-museum_in_your_area_front/GLOBAL_VALUES.js
+museum_in_your_area_front/GLOBAL_VALUES.*
 
 # End of https://www.toptal.com/developers/gitignore/api/vuejs,node
